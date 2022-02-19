@@ -4,13 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class OrderList extends StatelessWidget {
   const OrderList({Key? key}) : super(key: key);
 
-  static String routeName = "/order_list";
+  static String routeName = "/order_list_screen";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Second Route'),
+        title: const Text('Order'),
       ),
       body: Center(
         child: ElevatedButton(
