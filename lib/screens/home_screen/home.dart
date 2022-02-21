@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
-import './widgets/GridLayout.dart';
+import 'package:gsms_mobileapp_swd/widgets/menu_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  static String routeName = '/';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,12 +23,23 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView(
         shrinkWrap: true,
-        children: const <Widget>[
-          GridCard(),
+        children: <Widget>[
+          GridView.count(
+            primary: false,
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(20),
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+            crossAxisCount: 3,
+            children: const <Widget>[
+              MenuCard(
+                cardName: 'Order',
+                routeName: '/order_list',
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 }
-
-

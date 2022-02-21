@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MenuCard extends StatelessWidget {
-  const MenuCard({Key? key, required this.cardName}) : super(key: key);
+  const MenuCard({Key? key, required this.cardName, required this.routeName}) : super(key: key);
 
   final String cardName;
+  final String routeName;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class MenuCard extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          debugPrint('Order tapped.');
+          Navigator.pushNamed(context, routeName);
         },
         child: Text(
           cardName,
