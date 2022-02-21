@@ -13,41 +13,131 @@ class _ItemCardState extends State<ItemCard> {
     // Figma Flutter Generator ItemCard - COMPONENT
 
     return SizedBox(
-      height: 210,
-      child: Card(
-        elevation: 5,
+      height: 200,
+      child: Container(
+        padding: const EdgeInsets.all(20.0),
+        alignment: Alignment.center,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Text("data"),
+                const Text(
+                  "Order's ID",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                // Status box
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 80.0,
+                    minHeight: 20.0,
+                  ),
+                  child: SizedBox.shrink(
+                    child: ElevatedButton(
+                      child: const Text('Status'),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
               ],
             ),
             const Divider(
               thickness: 1.0,
             ),
-            ListTile(
-              title: const Text(
-                '(408) 555-1212',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
-              leading: Icon(
-                Icons.contact_phone,
-                color: Colors.blue[500],
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 120.0,
+                    minHeight: 30.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.person),
+                      Text("Customer's name"),
+                    ],
+                  ),
+                ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 120.0,
+                    minHeight: 30.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.phone),
+                      Text("0916460400"),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            ListTile(
-              title: const Text('costa@example.com'),
-              leading: Icon(
-                Icons.contact_mail,
-                color: Colors.blue[500],
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 120.0,
+                    minHeight: 30.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.money),
+                      Text("Pay amount"),
+                    ],
+                  ),
+                ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 120.0,
+                    minHeight: 30.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.calendar_today),
+                      Text("Order Date"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 120.0,
+                    minHeight: 30.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.grid_view),
+                      Text("Quantity"),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
-    ;
   }
 }
