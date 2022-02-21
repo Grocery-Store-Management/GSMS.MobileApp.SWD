@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gsms_mobileapp_swd/widgets/example.dart';
+import 'package:gsms_mobileapp_swd/widgets/item_card.dart';
 
 class OrderListScreen extends StatefulWidget {
   const OrderListScreen({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class OrderItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Itemcard1Widget(),
+          ItemCard(),
         ],
       ),
     );
@@ -77,7 +77,7 @@ class ClearDateButton extends StatelessWidget {
       onPressed: () {
         // TODO: Add clear Start Date and End Date
       },
-      child: Icon(Icons.cancel),
+      child: const Icon(Icons.cancel),
     );
   }
 }
