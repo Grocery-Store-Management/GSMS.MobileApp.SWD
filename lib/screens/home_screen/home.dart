@@ -11,12 +11,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(Icons.menu, color: Colors.white),
           onPressed: null,
         ),
         title: const Text('GSM Admin'),
@@ -36,9 +44,56 @@ class _HomeScreenState extends State<HomeScreen> {
                 cardName: 'Order',
                 routeName: '/order_list',
               ),
+              MenuCard(
+                cardName: 'Product',
+                routeName: '/',
+              ),
+              MenuCard(
+                cardName: 'Brand',
+                routeName: '/',
+              ),
+              MenuCard(
+                cardName: 'Employee',
+                routeName: '/',
+              ),
+              MenuCard(
+                cardName: 'Customer',
+                routeName: '/',
+              ),
+              MenuCard(
+                cardName: 'Shop',
+                routeName: '/',
+              ),
             ],
           ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.holiday_village_outlined),
+            label: 'Shop',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart_outlined),
+            label: 'Order',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Account',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Account',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue[800],
+        onTap: _onItemTapped,
       ),
     );
   }
