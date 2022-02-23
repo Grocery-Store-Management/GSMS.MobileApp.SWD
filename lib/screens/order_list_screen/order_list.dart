@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gsms_mobileapp_swd/widgets/item_card.dart';
+import 'package:gsms_mobileapp_swd/screens/order_list_screen/widgets/order_list_card.dart';
+import 'package:gsms_mobileapp_swd/screens/order_list_screen/widgets/order_date_picker.dart';
 
 class OrderListScreen extends StatefulWidget {
   const OrderListScreen({Key? key}) : super(key: key);
@@ -11,6 +12,9 @@ class OrderListScreen extends StatefulWidget {
 }
 
 class _OrderState extends State<OrderListScreen> {
+  TextEditingController startDateInput = TextEditingController();
+  TextEditingController endDateInput = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,20 +25,26 @@ class _OrderState extends State<OrderListScreen> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(20.0),
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const <Widget>[
-              StartDateButton(),
-              EndDateButton(),
-              ClearDateButton(),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: OrderDatePicker(),
           ),
           Row(
-            children: const <Widget>[
-              // TODO: Style OrderItemCard following figma design
+            children: <Widget>[
               Expanded(
-                child: OrderItemCard(),
-              )
+                child: Card(
+                  elevation: 5,
+                  shadowColor: Colors.blueGrey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const <Widget>[
+                      OrderListCard(),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ],
@@ -43,75 +53,4 @@ class _OrderState extends State<OrderListScreen> {
   }
 }
 
-class OrderItemCard extends StatelessWidget {
-  const OrderItemCard({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shadowColor: Colors.blueGrey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          ItemCard(),
-        ],
-      ),
-    );
-  }
-}
-
-class ClearDateButton extends StatelessWidget {
-  const ClearDateButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
-      onPressed: () {
-        // TODO: Add clear Start Date and End Date
-      },
-      child: const Icon(Icons.cancel),
-    );
-  }
-}
-
-class EndDateButton extends StatelessWidget {
-  const EndDateButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
-      onPressed: () {
-        // TODO: Add showDatePicker function
-      },
-      child: const Text('End Date'),
-    );
-  }
-}
-
-class StartDateButton extends StatelessWidget {
-  const StartDateButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
-      onPressed: () {
-        // TODO: Add showDatePicker function
-      },
-      child: const Text('Start Date'),
-    );
-  }
-}
