@@ -60,7 +60,7 @@ class _StartDateTextFieldState extends State<StartDateTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: dateInput, //editing controller of this TextField
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "Start Date"
       ),
       readOnly: true, //set it true, so that user will not able to edit text
@@ -113,7 +113,7 @@ class _EndDateTextFieldState extends State<EndDateTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: dateInput, //editing controller of this TextField
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           labelText: "End Date"
       ),
       readOnly: true, //set it true, so that user will not able to edit text

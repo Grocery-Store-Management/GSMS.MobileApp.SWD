@@ -18,17 +18,16 @@ class ProductSales extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 10.0, left: 10.0),
+                  padding: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 15.0),
                   child: Text(
-                    "Product Sales",
+                    "Yearly Product Sales",
                     style: TextStyle(
                         fontSize: 20,
                         color: Colors.green,
                         fontWeight: FontWeight.w400),
                   ),
                 ),
-                ChartDateButton(),
-                SalesChart()
+                YearSalesChart()
               ],
             ),
           ),
@@ -38,44 +37,16 @@ class ProductSales extends StatelessWidget {
   }
 }
 
-class ChartDateButton extends StatelessWidget {
-  const ChartDateButton({
+class YearSalesChart extends StatefulWidget {
+  const YearSalesChart({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: ElevatedButton(onPressed: () {}, child: Text("Day")),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: ElevatedButton(onPressed: () {}, child: Text("Month")),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: ElevatedButton(onPressed: () {}, child: Text("Year")),
-        ),
-      ],
-    );
-  }
+  State<YearSalesChart> createState() => _YearSalesChartState();
 }
 
-class SalesChart extends StatefulWidget {
-  const SalesChart({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<SalesChart> createState() => _SalesChartState();
-}
-
-class _SalesChartState extends State<SalesChart> {
+class _YearSalesChartState extends State<YearSalesChart> {
   late TooltipBehavior _tooltipBehavior;
 
   @override
@@ -90,26 +61,33 @@ class _SalesChartState extends State<SalesChart> {
         primaryXAxis: CategoryAxis(),
         legend: Legend(isVisible: false),
         tooltipBehavior: _tooltipBehavior,
-        series: <LineSeries<SalesData, String>>[
-          LineSeries<SalesData, String>(
-            dataSource: <SalesData>[
-              SalesData('Jan', 35),
-              SalesData('Feb', 28),
-              SalesData('Mar', 34),
-              SalesData('Apr', 32),
-              SalesData('May', 40)
+        series: <LineSeries<YearSalesData, String>>[
+          LineSeries<YearSalesData, String>(
+            dataSource: <YearSalesData>[
+              YearSalesData('Jan', 35),
+              YearSalesData('Feb', 28),
+              YearSalesData('Mar', 34),
+              YearSalesData('Apr', 32),
+              YearSalesData('May', 40),
+              YearSalesData('June', 22),
+              YearSalesData('July', 33),
+              YearSalesData('August', 51),
+              YearSalesData('September', 34),
+              YearSalesData('October', 23),
+              YearSalesData('November', 31),
+              YearSalesData('December', 60),
             ],
-            xValueMapper: (SalesData sales, _) => sales.year,
-            yValueMapper: (SalesData sales, _) => sales.sales,
+            xValueMapper: (YearSalesData sales, _) => sales.year,
+            yValueMapper: (YearSalesData sales, _) => sales.sales,
             // Enable data label
-            dataLabelSettings: DataLabelSettings(isVisible: true),
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
           ),
         ]);
   }
 }
 
-class SalesData {
-  SalesData(this.year, this.sales);
+class YearSalesData {
+  YearSalesData(this.year, this.sales);
   final String year;
   final double sales;
 }

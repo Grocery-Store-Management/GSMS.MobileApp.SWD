@@ -33,8 +33,8 @@ class _HomeItemGridState extends State<HomeItemGrid> {
           routeName: '/',
         ),
         ItemCard(
-          cardIcon: Icon(Icons.emoji_emotions_outlined),
-          cardName: 'Customer',
+          cardIcon: Icon(Icons.shop),
+          cardName: 'Brand',
           amount: 0,
           routeName: '/',
         ),
