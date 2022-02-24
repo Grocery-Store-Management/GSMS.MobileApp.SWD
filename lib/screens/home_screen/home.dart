@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:gsms_mobileapp_swd/widgets/home_item_card.dart';
+import 'package:gsms_mobileapp_swd/widgets/home_screen_widgets/home_item_grid.dart';
+import 'package:gsms_mobileapp_swd/widgets/home_screen_widgets/home_product_sales.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,109 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView(
         shrinkWrap: true,
-        children: <Widget>[
-          GridView.count(
-            primary: false,
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(20),
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            crossAxisCount: 3,
-            children: const <Widget>[
-              HomeItemCard(
-                cardIcon: Icon(Icons.shopping_cart_outlined),
-                cardName: 'Order',
-                amount: 0,
-                routeName: '/order_list',
-              ),
-              HomeItemCard(
-                cardIcon: Icon(Icons.grid_view),
-                cardName: 'Product',
-                amount: 0,
-                routeName: '/',
-              ),
-              HomeItemCard(
-                cardIcon: Icon(Icons.emoji_emotions_outlined),
-                cardName: 'Customer',
-                amount: 0,
-                routeName: '/',
-              ),
-              HomeItemCard(
-                cardIcon: Icon(Icons.people_alt_outlined),
-                cardName: 'Employee',
-                amount: 0,
-                routeName: '/',
-              ),
-              HomeItemCard(
-                cardIcon: Icon(Icons.remove_shopping_cart_outlined),
-                cardName: 'Sold out',
-                amount: 0,
-                routeName: '/',
-              ),
-              HomeItemCard(
-                cardIcon: Icon(Icons.trending_down_outlined),
-                cardName: 'Low in Stock',
-                amount: 0,
-                routeName: '/',
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-            child: Container(
-              constraints: const BoxConstraints(
-                maxHeight: 300,
-                maxWidth: 100,
-              ),
-              child: Card(
-                elevation: 5,
-                shadowColor: Colors.blueGrey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0, left: 20.0),
-                      child: Text(
-                        "Product Sales",
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.green,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: ElevatedButton(
-                              onPressed: (){},
-                              child: Text("Day")
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: ElevatedButton(
-                              onPressed: (){},
-                              child: Text("Month")
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: ElevatedButton(
-                              onPressed: (){},
-                              child: Text("Year")
-                          ),
-                        ),
-                      ],
-                    ),
-                    SalesChart()
-                  ],
-                ),
-              ),
-            ),
-          ),
+        children: const <Widget>[
+          HomeItemGrid(),
+          ProductSales(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -157,21 +57,5 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _onItemTapped,
       ),
     );
-  }
-}
-
-class SalesChart extends StatefulWidget {
-  const SalesChart({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<SalesChart> createState() => _SalesChartState();
-}
-
-class _SalesChartState extends State<SalesChart> {
-  @override
-  Widget build(BuildContext context) {
-    return Text("Chart Zone");
   }
 }

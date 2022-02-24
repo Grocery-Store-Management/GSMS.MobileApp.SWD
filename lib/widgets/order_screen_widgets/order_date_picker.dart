@@ -13,23 +13,26 @@ class OrderDatePicker extends StatefulWidget {
 class _OrderDatePickerState extends State<OrderDatePicker> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        SizedBox(
-          width: 100.0,
-          height: 50.0,
-          child: StartDateTextField(),
-        ),
-        SizedBox(
-          width: 100.0,
-          height: 50.0,
-          child: EndDateTextField(),
-        ),
-        SizedBox(
-          child: ClearDateButton(),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: const [
+          SizedBox(
+            width: 100.0,
+            height: 50.0,
+            child: StartDateTextField(),
+          ),
+          SizedBox(
+            width: 100.0,
+            height: 50.0,
+            child: EndDateTextField(),
+          ),
+          SizedBox(
+            child: ClearDateButton(),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -12,29 +12,51 @@ class _OrderListCardState extends State<OrderListCard> {
   Widget build(BuildContext context) {
     // Figma Flutter Generator ItemCard - COMPONENT
 
-    return SizedBox(
-      height: 150,
-      child: Container(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: const <Widget>[
-            OrderTitle(),
-            Divider(
-              thickness: 1.5,
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Card(
+            elevation: 5,
+            shadowColor: Colors.blueGrey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 150,
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: const <Widget>[
+                        OrderTitle(),
+                        Divider(
+                          thickness: 1.5,
+                        ),
+                        OrderInfoRow(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            OrderInfoRow(),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
 
-class OrderTitle extends StatelessWidget {
+class OrderTitle extends StatefulWidget {
   const OrderTitle({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<OrderTitle> createState() => _OrderTitleState();
+}
+
+class _OrderTitleState extends State<OrderTitle> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -62,11 +84,16 @@ class OrderTitle extends StatelessWidget {
   }
 }
 
-class OrderInfoRow extends StatelessWidget {
+class OrderInfoRow extends StatefulWidget {
   const OrderInfoRow({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<OrderInfoRow> createState() => _OrderInfoRowState();
+}
+
+class _OrderInfoRowState extends State<OrderInfoRow> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -95,7 +122,9 @@ class OrderInfoRow extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               alignment: WrapAlignment.start,
               children: const <Widget>[
-                Icon(Icons.widgets,),
+                Icon(
+                  Icons.widgets,
+                ),
                 Text("Quantity"),
               ],
             ),
