@@ -11,6 +11,9 @@ class OrderDatePicker extends StatefulWidget {
 }
 
 class _OrderDatePickerState extends State<OrderDatePicker> {
+  late DateTime startDateInput;
+  late DateTime endDateInput;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -27,7 +27,7 @@ class _HomeItemGridState extends State<HomeItemGrid> {
           routeName: '/order_list',
         ),
         ItemCard(
-          cardIcon: Icon(Icons.grid_view),
+          cardIcon: Icon(Icons.fastfood_outlined),
           cardName: 'Product',
           amount: 0,
           routeName: '/',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gsms_mobileapp_swd/widgets/bottom_nav_bar.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_screen_widgets/home_item_grid.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_screen_widgets/home_product_sales.dart';
 
@@ -16,11 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerNavigation(),
       appBar: AppBar(
-        leading: const IconButton(
-          icon: Icon(Icons.menu, color: Colors.white),
-          onPressed: null,
-        ),
         title: const Text('GSM Admin'),
       ),
       body: ListView(
@@ -35,45 +33,43 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({
+class DrawerNavigation extends StatelessWidget {
+  const DrawerNavigation({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
-}
-
-class _BottomNavigationState extends State<BottomNavigation> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.notifications_none),
-          label: 'Notification',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          label: 'Account',
-        ),
-      ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: Colors.blue[800],
-      onTap: _onItemTapped,
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: const <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text(
+              'Drawer Header',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.message),
+            title: Text('Messages'),
+          ),
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('Profile'),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+          ),
+        ],
+      ),
     );
   }
 }

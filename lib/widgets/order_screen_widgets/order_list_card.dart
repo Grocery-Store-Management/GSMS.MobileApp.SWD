@@ -18,27 +18,33 @@ class _OrderListCardState extends State<OrderListCard> {
           child: Card(
             elevation: 5,
             shadowColor: Colors.blueGrey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 150,
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: const <Widget>[
-                        OrderTitle(),
-                        Divider(
-                          thickness: 1.5,
-                        ),
-                        OrderInfoRow(),
-                      ],
+            child: InkWell(
+              splashColor: Colors.blue.withAlpha(30),
+              onTap: () {
+                Navigator.pushNamed(context, "/order_detail");
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: const <Widget>[
+                          OrderTitle(),
+                          Divider(
+                            thickness: 1.5,
+                          ),
+                          OrderInfoRow(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
