@@ -17,6 +17,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
       _selectedIndex = index;
       switch(_selectedIndex) {
         case 0:
+          Navigator.pushNamed(context, '/');
+          break;
+        case 1:
+          Navigator.pushNamed(context, '/');
+          break;
+        case 2:
           Navigator.pushNamed(context, '/order_screen');
           break;
       }
