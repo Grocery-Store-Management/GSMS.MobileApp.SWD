@@ -11,8 +11,6 @@ class OrderDatePicker extends StatefulWidget {
 }
 
 class _OrderDatePickerState extends State<OrderDatePicker> {
-  late DateTime startDateInput;
-  late DateTime endDateInput;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +22,14 @@ class _OrderDatePickerState extends State<OrderDatePicker> {
           SizedBox(
             width: 100.0,
             height: 50.0,
-            child: StartDateTextField(),
+            child: StartDateTextField(
+              startDate: '',
+            ),
           ),
           SizedBox(
             width: 100.0,
             height: 50.0,
             child: EndDateTextField(),
-          ),
-          SizedBox(
-            child: ClearDateButton(),
           ),
         ],
       ),
@@ -41,9 +38,10 @@ class _OrderDatePickerState extends State<OrderDatePicker> {
 }
 
 class StartDateTextField extends StatefulWidget {
-  const StartDateTextField({
-    Key? key,
-  }) : super(key: key);
+  const StartDateTextField({Key? key, required this.startDate})
+      : super(key: key);
+
+  final String startDate;
 
   @override
   State<StartDateTextField> createState() => _StartDateTextFieldState();
@@ -63,9 +61,7 @@ class _StartDateTextFieldState extends State<StartDateTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: dateInput, //editing controller of this TextField
-      decoration: const InputDecoration(
-          labelText: "Start Date"
-      ),
+      decoration: const InputDecoration(labelText: "Start Date"),
       readOnly: true, //set it true, so that user will not able to edit text
       onTap: () async {
         DateTime? pickedDate = await showDatePicker(
@@ -116,9 +112,7 @@ class _EndDateTextFieldState extends State<EndDateTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: dateInput, //editing controller of this TextField
-      decoration: const InputDecoration(
-          labelText: "End Date"
-      ),
+      decoration: const InputDecoration(labelText: "End Date"),
       readOnly: true, //set it true, so that user will not able to edit text
       onTap: () async {
         DateTime? pickedDate = await showDatePicker(
@@ -143,19 +137,6 @@ class _EndDateTextFieldState extends State<EndDateTextField> {
           print("Date is not selected");
         }
       },
-    );
-  }
-}
-
-class ClearDateButton extends StatelessWidget {
-  const ClearDateButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: (ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20))),
-      onPressed: () {},
-      child: const Text("Clear"),
     );
   }
 }

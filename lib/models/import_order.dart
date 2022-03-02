@@ -1,4 +1,4 @@
-class ImportOrderModel {
+class ImportOrder {
   String? id;
   String? name;
   String? productId;
@@ -9,7 +9,7 @@ class ImportOrderModel {
   String? error;
   List<ImportOrderDetails>? importOrderDetails;
 
-  ImportOrderModel(
+  ImportOrder(
       {this.id,
       this.name,
       this.productId,
@@ -19,11 +19,11 @@ class ImportOrderModel {
       this.store,
       this.importOrderDetails});
 
-  ImportOrderModel.withError(String errorMessage) {
+  ImportOrder.withError(String errorMessage) {
     error = errorMessage;
   }
 
-  ImportOrderModel.fromJson(Map<String, dynamic> json) {
+  ImportOrder.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     productId = json['productId'];

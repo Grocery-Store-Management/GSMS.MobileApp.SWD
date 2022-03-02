@@ -1,5 +1,7 @@
 part of 'import_order_bloc.dart';
 
+enum ImportOrderStatus { initial, success, failure }
+
 abstract class ImportOrderState extends Equatable {
   const ImportOrderState();
 
@@ -12,7 +14,7 @@ class ImportOrderInitial extends ImportOrderState {}
 class ImportOrderLoading extends ImportOrderState {}
 
 class ImportOrderLoaded extends ImportOrderState {
-  final ImportOrderModel importOrderModel;
+  final ImportOrder importOrderModel;
   const ImportOrderLoaded(this.importOrderModel);
 }
 
