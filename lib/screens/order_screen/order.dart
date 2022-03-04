@@ -18,8 +18,6 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderState extends State<OrderScreen> {
   final ImportOrderBloc _newBloc = ImportOrderBloc();
-  TextEditingController startDateInput = TextEditingController();
-  TextEditingController endDateInput = TextEditingController();
 
   @override
   void initState() {

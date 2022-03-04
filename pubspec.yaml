@@ -42,6 +42,11 @@ dependencies:
   syncfusion_flutter_charts: ^19.4.53
   persistent_bottom_nav_bar: ^4.0.2
   dio: ^4.0.4
+  firebase_messaging: ^11.2.8
+  flutter_local_notifications: ^9.3.3
+  badges: ^2.0.2
+  firebase_core: ^1.13.1
+  overlay_support: ^1.2.1
 
 dev_dependencies:
   flutter_test:

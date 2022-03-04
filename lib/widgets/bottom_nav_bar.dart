@@ -14,16 +14,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex;
       switch(_selectedIndex) {
         case 0:
           Navigator.pushNamed(context, '/');
           break;
         case 1:
-          Navigator.pushNamed(context, '/');
-          break;
-        case 2:
-          Navigator.pushNamed(context, '/order_screen');
+          Navigator.pushNamed(context, '/notification_list');
           break;
       }
     });
@@ -39,16 +36,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.business),
-          label: 'Store',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
-          label: 'Order',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.fastfood_outlined),
-          label: 'Product',
+          icon: Icon(Icons.notifications),
+          label: 'Notifications',
         ),
       ],
       currentIndex: _selectedIndex,
