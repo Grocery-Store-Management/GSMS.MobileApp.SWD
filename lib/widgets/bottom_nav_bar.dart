@@ -14,7 +14,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex;
+      _selectedIndex = index;
       switch(_selectedIndex) {
         case 0:
           Navigator.pushNamed(context, '/');

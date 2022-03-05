@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
-import 'package:gsms_mobileapp_swd/services/local_notification.dart';
 
 import 'package:gsms_mobileapp_swd/widgets/bottom_nav_bar.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_screen_widgets/home_item_grid.dart';
@@ -20,49 +16,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    LocalNotificationService.initialize(context);
-    ///gives you the message on which user taps
-    ///and it opened the app from terminated state
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        final routeFromMessage = message.data["route"];
-        Navigator.of(context).pushNamed(routeFromMessage);
-      }
-    });
-    ///forground work
-    FirebaseMessaging.onMessage.listen((message) {
-      if (message.notification != null) {
-        print(message.notification!.body);
-        print(message.notification!.title);
-      }
-      LocalNotificationService.display(message);
-    });
-    ///When the app is in background but opened and user taps
-    ///on the notification
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      final routeFromMessage = message.data["route"];
-      Navigator.of(context).pushNamed(routeFromMessage);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('GSM Admin'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: Row(
-              children: [
-                Icon(Icons.notifications),
-              ],
-            ),
-          )
-        ],
       ),
       body: ListView(
         shrinkWrap: true,
@@ -72,6 +29,33 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: const BottomNavigation(),
+    );
+  }
+}
+
+class NotificationBadge extends StatelessWidget {
+  final int totalNotifications;
+
+  const NotificationBadge({required this.totalNotifications});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40.0,
+      height: 40.0,
+      decoration: new BoxDecoration(
+        color: Colors.red,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            '$totalNotifications',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ),
     );
   }
 }

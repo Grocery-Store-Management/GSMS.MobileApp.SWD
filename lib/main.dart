@@ -2,44 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:gsms_mobileapp_swd/services/local_notification.dart';
+import 'package:gsms_mobileapp_swd/services/firebase_provider.dart';
+
 import './routes.dart';
+
+Future<void> main() async {
+  // Initialize the Firebase app
+  FirebaseProvider().firebasePoop();
+  runApp(const MyApp());
+}
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
+  description: 'This channel is used for important notifications.', // description
   importance: Importance.high,
 );
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
-  runApp(const MyApp());
-}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -49,11 +30,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   void initState() {
     super.initState();
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('ic_launcher');
+
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettings =
@@ -72,6 +53,7 @@ class _MyAppState extends State<MyApp> {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
+                channelDescription: channel.description,
                 color: Colors.blue,
                 // TODO add a proper drawable resource to android, for now using
                 //      one that already exists in example app.
@@ -105,9 +87,10 @@ class _MyAppState extends State<MyApp> {
     getToken();
   }
 
-  late String token;
+  String? token;
   getToken() async {
-    token = await FirebaseMessaging.instance.getToken().toString();
+    token = await FirebaseMessaging.instance.getToken();
+    print(token);
   }
 
   @override

@@ -25,8 +25,9 @@ class LocalNotificationService {
 
       final NotificationDetails notificationDetails = NotificationDetails(
           android: AndroidNotificationDetails(
-        "Hello",
-        "Hi",
+        "ID",
+        "Name",
+        channelDescription: "Description",
         importance: Importance.max,
         priority: Priority.high,
       ));
