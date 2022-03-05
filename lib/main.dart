@@ -3,24 +3,27 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gsms_mobileapp_swd/services/firebase_provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import './routes.dart';
 
 Future<void> main() async {
   // Initialize the Firebase app
-  FirebaseProvider().firebasePoop();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  await Firebase.initializeApp(
+    name: 'GSM Mobile',
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyAldJXM2refr3KFIh0qddgtdl_0ts-y14k',
+      appId: '1:835304842718:android:b49ddc1e1d5c5bd92de94f',
+      messagingSenderId: '835304842718',
+      projectId: 'gsms-41f9a',
+    ),
+  );
+
   runApp(const MyApp());
 }
-
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  description: 'This channel is used for important notifications.', // description
-  importance: Importance.high,
-);
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -30,7 +33,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -68,7 +70,7 @@ class _MyAppState extends State<MyApp> {
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
         showDialog(
-            // context: context,
+            context: context,
             builder: (_) {
               return AlertDialog(
                 title: Text(notification.title.toString()),
@@ -80,7 +82,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             },
-            context: context);
+        );
       }
     });
 
