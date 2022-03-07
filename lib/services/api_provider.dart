@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:gsms_mobileapp_swd/models/import_order.dart';
 
@@ -6,32 +8,41 @@ class ApiProvider {
   final String _url = 'https://gsms-api.azurewebsites.net/api/v1.0';
 
   /* ImportOrder API */
-  Future<ImportOrder?> fetchImportOrderList({
-    required String startDate,
-    Map<String, dynamic>? query,
-    String lang = 'en',
-    String? token,
-  }) async {
-    ImportOrder? order;
-
-    _dio.options.headers = {
-      'lang': lang,
-      'Authorization':
-          'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImNmNWQ4ZTc0ZjNjNDg2ZWU1MDNkNWVlYzkzYTEwMWM2NGJhY2Y3ZGEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiTmd1eWVuIEh1eW5oIE5oYXQgTWluaCIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHaXI3bzV6RW1lNVNBOHJFM3dndzlhcC14Wk1HYzBoSDI4enhMOHVmdz1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nc21zLTQxZjlhIiwiYXVkIjoiZ3Ntcy00MWY5YSIsImF1dGhfdGltZSI6MTY0NjIwMzI5MCwidXNlcl9pZCI6ImEwWndnd1pNc29oTktTQTBqcUIyNXNhUTVQZjEiLCJzdWIiOiJhMFp3Z3daTXNvaE5LU0EwanFCMjVzYVE1UGYxIiwiaWF0IjoxNjQ2MjAzMjkwLCJleHAiOjE2NDYyMDY4OTAsImVtYWlsIjoibWluaG5obnNlMTMwNTE3QGZwdC5lZHUudm4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJnb29nbGUuY29tIjpbIjExNjIzNjE5MjUzNzAzMzcwMTU2NyJdLCJlbWFpbCI6WyJtaW5obmhuc2UxMzA1MTdAZnB0LmVkdS52biJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.lMlW9ABVpzcLYLN606x7QQjmCBHLGDb0mQdoXuI5zxspYssvCDOhnohRzwd499f7ZWQqd8jVkxHeHm9BcrfHBIi_za65-myeWfYd3y1h5ZYPinr5qjOQ4z8DW3J2cnfLJ-wUkVEHsC6vYCWbSB8i2fMBTjb0DuyMrioLG-kfEGGOVZHtYkaZoFqVdptCr7wh4seC_zFvKP4y8eHZCbu3GyH78GvqCF_o8g5pGCWmf5VLBiG1YX0nghyEOJb-TV1c1sVAi1O0lSY4u9ZH8uWkGpJ6CWwUZxFyG3J5nvfbXVWFFDQ5ZtrOSmWtd0NtxmAa3UJCqRJy5ObZJ18GR-wqEg',
-      'Content-Type': 'application/json',
-    };
-
-    try {
-      Response response = await _dio.get(
-          _url + '/import-orders?start-date=$startDate&page=1&page-size=10');
-
-      print('Order info: ${response.data}');
-
-      order = ImportOrder.fromJson(response.data);
-    } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
-      return ImportOrder.withError("Data not found / Connection issue");
+  Future<List<ImportOrder>> fetchOrders() async {
+    final response = await _dio.get(_url + '/import-orders?start-date=2022-02-01&end-date=2022-02-28&page=1&page-size=10');
+    if (response.statusCode == 200) {
+      final data = json.decode(response.data) as List;
+      return data.map((dynamic json) {
+        return ImportOrder(
+          id: json['id'] as String,
+          name: json['name'] as String,
+          createdDate: json['createdDate'] as String,
+        );
+      }).toList();
     }
-    return order;
+    throw Exception('error fetching posts');
   }
 }
+
+// _dio.options.headers = {
+// 'lang': lang,
+// 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkYzBlNmRmOTgyN2Ew'
+// 'MjA2MWU4MmY0NWI0ODQwMGQwZDViMjgyYzAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiT'
+// 'md1eWVuIEh1eW5oIE5oYXQgTWluaCIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nb'
+// 'GV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHaXI3bzV6RW1lNVNBOHJFM3dndzlhcC14W'
+// 'k1HYzBoSDI4enhMOHVmdz1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ'
+// '29vZ2xlLmNvbS9nc21zLTQxZjlhIiwiYXVkIjoiZ3Ntcy00MWY5YSIsImF1dGhfdGltZ'
+// 'SI6MTY0NjYzNzk2NCwidXNlcl9pZCI6ImEwWndnd1pNc29oTktTQTBqcUIyNXNhUTVQZ'
+// 'jEiLCJzdWIiOiJhMFp3Z3daTXNvaE5LU0EwanFCMjVzYVE1UGYxIiwiaWF0IjoxNjQ2N'
+// 'jM3OTY0LCJleHAiOjE2NDY2NDE1NjQsImVtYWlsIjoibWluaG5obnNlMTMwNTE3QGZwd'
+// 'C5lZHUudm4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpd'
+// 'GllcyI6eyJnb29nbGUuY29tIjpbIjExNjIzNjE5MjUzNzAzMzcwMTU2NyJdLCJlbWFpb'
+// 'CI6WyJtaW5obmhuc2UxMzA1MTdAZnB0LmVkdS52biJdfSwic2lnbl9pbl9wcm92aWRlc'
+// 'iI6Imdvb2dsZS5jb20ifX0.YNMIc8PBMzV45ZC3u98TQ8T612bpe-0yYMOC_6MLJxHRQ'
+// 'x4oeOigfaxijbfkHxjnrFVDuKSjYqGfMNKgk_fM7Hq_FybMx7z0mWC78HZKr1D__-kNG'
+// 'ZUo3HKkxl6BXEB2J27-Lus9Xsp15y7gOaXEieKFqFFUQzjUXa-U-B1TPNDZTF4PuJRAJ'
+// 's_IA9fOXDLY7PttuAkRfUrdPx_ckSYib7lkW2nMeuD0wkFKMSLJAzhvB0S13fgTOiL-5'
+// 'mpgklLg4a-yDQnE99H95LmzddHat73YihzQrMxkT48BHpDtuutppBzBoB5EIPWI5xlLX'
+// 'GRpuIcQtkZOy2yl62Wb6CDlBA',
+// 'Content-Type': 'application/json',
+// };

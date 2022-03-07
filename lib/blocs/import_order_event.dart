@@ -7,4 +7,4 @@ abstract class ImportOrderEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GetImportOrderList extends ImportOrderEvent {}
+class ImportOrderFetched extends ImportOrderEvent {}

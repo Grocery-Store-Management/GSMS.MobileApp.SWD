@@ -1,33 +1,54 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gsms_mobileapp_swd/models/import_order.dart';
-import 'package:gsms_mobileapp_swd/services/api_repository.dart';
+import 'package:gsms_mobileapp_swd/services/api_provider.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 part 'import_order_event.dart';
 part 'import_order_state.dart';
 
-class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
+const throttleDuration = Duration(milliseconds: 100);
 
-  ImportOrderBloc() : super(ImportOrderInitial()) {
-    on<GetImportOrderList>(
-        _onGetImportOrder,
-    );
+EventTransformer<E> throttleDroppable<E>(Duration duration) {
+  return (events, mapper) {
+    return droppable<E>().call(events.throttle(duration), mapper);
+  };
+}
+
+class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
+  ImportOrderBloc({required this.apiProvider}) : super(const ImportOrderState()) {
+    on<ImportOrderFetched>(
+      _onOrderFetched,
+      transformer: throttleDroppable(throttleDuration),);
   }
 
-  final ApiRepository _apiRepository = ApiRepository();
+  final ApiProvider apiProvider;
 
-  Future<void> _onGetImportOrder(GetImportOrderList event, Emitter<ImportOrderState> emit) async {
+  Future<void> _onOrderFetched(ImportOrderFetched event, Emitter<ImportOrderState> emit) async {
+    if (state.hasReachedMax) return;
     try {
-      emit(ImportOrderLoading());
-      final mList = await _apiRepository.fetchImportOrderList(startDate: '2022-03-01');
-      emit(ImportOrderLoaded(mList!));
-      if (mList.error != null) {
-        emit(ImportOrderError(mList.error));
+      if (state.status == ImportOrderStatus.initial) {
+        final orders = await apiProvider.fetchOrders();
+        return emit(state.copyWith(
+          status: ImportOrderStatus.success,
+          orders: orders,
+          hasReachedMax: false,
+        ));
       }
-    } on NetworkError {
-      emit(ImportOrderError("Failed to fetch data. is your device online?"));
+      final orders = await apiProvider.fetchOrders();
+      emit(orders.isEmpty
+          ? state.copyWith(hasReachedMax: true)
+          : state.copyWith(
+        status: ImportOrderStatus.success,
+        orders: List.of(state.orders)
+          ..addAll(orders),
+        hasReachedMax: false,
+      ));
+    } catch (_) {
+      emit(state.copyWith(status: ImportOrderStatus.failure));
     }
   }
 }

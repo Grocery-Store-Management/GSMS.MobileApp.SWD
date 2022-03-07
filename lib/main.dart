@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -6,6 +7,7 @@ import 'package:gsms_mobileapp_swd/services/firebase_provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import './routes.dart';
+import 'bloc_observer.dart';
 
 Future<void> main() async {
   // Initialize the Firebase app
@@ -22,7 +24,10 @@ Future<void> main() async {
     ),
   );
 
-  runApp(const MyApp());
+  BlocOverrides.runZoned(
+    () => runApp(MyApp()),
+    blocObserver: SimpleBlocObserver(),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -70,18 +75,18 @@ class _MyAppState extends State<MyApp> {
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
         showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title.toString()),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body.toString())],
-                  ),
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: Text(notification.title.toString()),
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [Text(notification.body.toString())],
                 ),
-              );
-            },
+              ),
+            );
+          },
         );
       }
     });
