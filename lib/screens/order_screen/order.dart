@@ -6,7 +6,6 @@ import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/widgets/bottom_nav_bar.dart';
 import 'package:gsms_mobileapp_swd/widgets/order_screen_widgets/order_list.dart';
 
-
 class OrderScreen extends StatefulWidget {
   const OrderScreen({Key? key}) : super(key: key);
 
@@ -17,7 +16,8 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderState extends State<OrderScreen> {
-  final ImportOrderBloc _fetchOrders = ImportOrderBloc(apiProvider: ApiProvider());
+  final ImportOrderBloc _fetchOrders =
+      ImportOrderBloc(apiProvider: ApiProvider());
 
   @override
   void initState() {
@@ -31,15 +31,28 @@ class _OrderState extends State<OrderScreen> {
       appBar: AppBar(
         title: const Text('Order'),
       ),
-      body: BlocProvider(
-        create: (_) => _fetchOrders,
-        child: Column(
-          children: [
-            OrderList(),
-          ],
+      body: Container(
+        margin: EdgeInsets.all(8.0),
+        child: BlocProvider(
+          create: (_) => _fetchOrders,
+          child: BlocListener<ImportOrderBloc, ImportOrderState>(
+            listener: (context, state) {
+              if (state is ImportOrderError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message!),
+                  ),
+                );
+              }
+            },
+            child: Column(
+              children: [
+                OrderList(),
+              ],
+            ),
+          ),
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }

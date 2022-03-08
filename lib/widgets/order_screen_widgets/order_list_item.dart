@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/models/import_order.dart';
 
 class OrderListItem extends StatelessWidget {
-  const OrderListItem({Key? key, required this.order}) : super(key: key);
+  const OrderListItem({Key? key, required this.orderModel}) : super(key: key);
 
-  final ImportOrder order;
+  final ImportOrder orderModel;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +32,7 @@ class OrderListItem extends StatelessWidget {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Text('${order.id}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                              // Status box
+                              Text('${orderModel.id}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                             ],
                           ),
                           Divider(thickness: 1.5),
@@ -49,7 +48,7 @@ class OrderListItem extends StatelessWidget {
                                     crossAxisAlignment: WrapCrossAlignment.center,
                                     children: <Widget>[
                                       Icon(Icons.person),
-                                      Text('${order.name}'),
+                                      Text('${orderModel.name}'),
                                     ],
                                   ),
                                   Wrap(
@@ -78,14 +77,14 @@ class OrderListItem extends StatelessWidget {
                                     crossAxisAlignment: WrapCrossAlignment.center,
                                     children: <Widget>[
                                       Icon(Icons.store),
-                                      Text('${order.store}'),
+                                      Text('${orderModel.store}'),
                                     ],
                                   ),
                                   Wrap(
                                     crossAxisAlignment: WrapCrossAlignment.center,
                                     children: <Widget>[
                                       Icon(Icons.calendar_today),
-                                      Text('${order.createdDate}'),
+                                      Text('${orderModel.createdDate}'),
                                     ],
                                   ),
                                 ],

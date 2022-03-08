@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:gsms_mobileapp_swd/widgets/bottom_loader.dart';
-import 'package:gsms_mobileapp_swd/widgets/order_screen_widgets/order_list_card.dart';
+import 'package:gsms_mobileapp_swd/widgets/order_screen_widgets/order_list_item.dart';
 import 'package:gsms_mobileapp_swd/blocs/import_order_bloc.dart';
+import 'package:gsms_mobileapp_swd/models/import_order.dart';
 
 class OrderList extends StatefulWidget {
   const OrderList({Key? key}) : super(key: key);
@@ -13,63 +14,29 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
-  final _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_isBottom) context.read<ImportOrderBloc>().add(ImportOrderFetched());
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
-  }
+  final ImportOrder orderModel = ImportOrder();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ImportOrderBloc, ImportOrderState>(
       builder: (context, state) {
-        switch (state.status) {
-          case ImportOrderStatus.failure:
-            return const Center(child: Text('failed to fetch orders'));
-          case ImportOrderStatus.success:
-            if (state.orders.isEmpty) {
-              return const Center(child: Text('no orders'));
-            }
-            return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return index >= state.orders.length
-                    ? BottomLoader()
-                    : OrderListItem(order: state.orders[index]);
-              },
-              itemCount: state.hasReachedMax
-                  ? state.orders.length
-                  : state.orders.length + 1,
-              controller: _scrollController,
-            );
-          default:
-            return const Center(child: CircularProgressIndicator());
+        if (state is ImportOrderInitial) {
+          return _buildLoading();
+        } else if (state is ImportOrderLoading) {
+          return _buildLoading();
+        } else if (state is ImportOrderLoaded) {
+          return OrderListItem(orderModel: orderModel,);
+        } else if (state is ImportOrderError) {
+          return Container();
+        } else {
+          return Container();
         }
       },
     );
   }
 }
 
+Widget _buildLoading() => Center(child: CircularProgressIndicator());
 
 class OrderDatePicker extends StatefulWidget {
   const OrderDatePicker({
