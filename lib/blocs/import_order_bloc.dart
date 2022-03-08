@@ -32,9 +32,9 @@ class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
       emit(ImportOrderLoading());
       final mList = await apiProvider.fetchOrders();
       emit(ImportOrderLoaded(mList));
-      if (mList.error != null) {
-        emit(ImportOrderError(mList.error));
-      }
+      // if (mList.error != null) {
+      //   emit(ImportOrderError(mList.error));
+      // }
     } on NetworkError {
       emit(ImportOrderError("Failed to fetch data. is your device online?"));
     };

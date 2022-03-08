@@ -12,8 +12,8 @@ class ImportOrderInitial extends ImportOrderState {}
 class ImportOrderLoading extends ImportOrderState {}
 
 class ImportOrderLoaded extends ImportOrderState {
-  final ImportOrder importOrder;
-  const ImportOrderLoaded(this.importOrder);
+  final List<ImportOrder> orderList;
+  const ImportOrderLoaded(this.orderList);
 }
 
 class ImportOrderError extends ImportOrderState {

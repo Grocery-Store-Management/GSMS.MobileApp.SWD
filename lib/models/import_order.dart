@@ -6,7 +6,6 @@ class ImportOrder {
   bool? isDeleted;
   String? createdDate;
   String? store;
-  String? error;
 
   ImportOrder({
     this.id,
@@ -17,10 +16,6 @@ class ImportOrder {
     this.createdDate,
     this.store,
   });
-
-  ImportOrder.withError(String errorMessage) {
-    error = errorMessage;
-  }
 
   ImportOrder.fromJson(Map<String, dynamic> json) {
     id = json['id'];
