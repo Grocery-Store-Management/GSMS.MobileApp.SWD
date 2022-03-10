@@ -28,14 +28,14 @@ class ImportOrder {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['productId'] = this.productId;
-    data['storeId'] = this.storeId;
-    data['isDeleted'] = this.isDeleted;
-    data['createdDate'] = this.createdDate;
-    data['store'] = this.store;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['productId'] = productId;
+    data['storeId'] = storeId;
+    data['isDeleted'] = isDeleted;
+    data['createdDate'] = createdDate;
+    data['store'] = store;
     return data;
   }
 }

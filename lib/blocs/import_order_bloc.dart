@@ -19,26 +19,60 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 }
 
 class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
-  ImportOrderBloc({required this.apiProvider}) : super(ImportOrderInitial()) {
+  ImportOrderBloc({required this.apiProvider}) : super(const ImportOrderState()) {
     on<ImportOrderFetched>(
-      _onOrderFetched,
-      transformer: throttleDroppable(throttleDuration),);
+        _fetchOrder,
+        transformer: throttleDroppable(throttleDuration),
+    );
   }
 
   final ApiProvider apiProvider;
 
-  Future<void> _onOrderFetched(ImportOrderFetched event, Emitter<ImportOrderState> emit) async {
+  Future<void> _fetchOrder(ImportOrderFetched event, Emitter<ImportOrderState> emit) async {
     try {
-      emit(ImportOrderLoading());
-      final mList = await apiProvider.fetchOrders();
-      emit(ImportOrderLoaded(mList));
-      // if (mList.error != null) {
-      //   emit(ImportOrderError(mList.error));
-      // }
-    } on NetworkError {
-      emit(ImportOrderError("Failed to fetch data. is your device online?"));
-    };
+      if (state.status == ImportOrderStatus.initial) {
+        final orders = await apiProvider.fetchOrders();
+        return emit(state.copyWith(
+          status: ImportOrderStatus.success,
+          orders: orders,
+        ));
+      }
+      final orders = await apiProvider.fetchOrders();
+      orders.isEmpty
+          ? emit(state.copyWith(hasReachedMax: true))
+          : emit(
+        state.copyWith(
+          status: ImportOrderStatus.success,
+          orders: List.of(state.orders)..addAll(orders),
+        ),
+      );
+    } catch (_) {
+      emit(state.copyWith(status: ImportOrderStatus.failure));
+    }
   }
 }
 
-class NetworkError extends Error {}
+// class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
+//   ImportOrderBloc({required this.apiProvider}) : super(ImportOrderInitial()) {
+//     on<ImportOrderFetched>(
+//       _onOrderFetched,
+//       transformer: throttleDroppable(throttleDuration),);
+//   }
+//
+//   final ApiProvider apiProvider;
+//
+//   Future<void> _onOrderFetched(ImportOrderFetched event, Emitter<ImportOrderState> emit) async {
+//     try {
+//       emit(ImportOrderLoading());
+//       final mList = await apiProvider.fetchOrders();
+//       emit(ImportOrderLoaded(mList));
+//       if (mList.error != null) {
+//         emit(ImportOrderError(mList.error));
+//       }
+//     } on NetworkError {
+//       emit(ImportOrderError("Failed to fetch data. is your device online?"));
+//     };
+//   }
+// }
+//
+// class NetworkError extends Error {}

@@ -23,37 +23,31 @@ class _HomeItemGridState extends State<HomeItemGrid> {
         ItemCard(
           cardIcon: Icon(Icons.shopping_cart_outlined),
           cardName: 'Order',
-          amount: 0,
           routeName: '/order_screen',
         ),
         ItemCard(
           cardIcon: Icon(Icons.fastfood_outlined),
           cardName: 'Product',
-          amount: 0,
           routeName: '/',
         ),
         ItemCard(
           cardIcon: Icon(Icons.shop),
           cardName: 'Brand',
-          amount: 0,
           routeName: '/',
         ),
         ItemCard(
           cardIcon: Icon(Icons.people_alt_outlined),
           cardName: 'Employee',
-          amount: 0,
           routeName: '/',
         ),
         ItemCard(
           cardIcon: Icon(Icons.remove_shopping_cart_outlined),
           cardName: 'Sold out',
-          amount: 0,
           routeName: '/',
         ),
         ItemCard(
           cardIcon: Icon(Icons.trending_down_outlined),
           cardName: 'Low in Stock',
-          amount: 0,
           routeName: '/',
         ),
       ],
@@ -67,13 +61,11 @@ class ItemCard extends StatefulWidget {
     required this.cardIcon,
     required this.cardName,
     required this.routeName,
-    required this.amount,
   }) : super(key: key);
 
   final Icon cardIcon;
   final String cardName;
   final String routeName;
-  final int amount;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -99,14 +91,6 @@ class _ItemCardState extends State<ItemCard> {
               widget.cardName,
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.normal),
-            ),
-            Text(
-              widget.amount.toString(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
-                  fontSize: 18),
             ),
           ],
         ),
