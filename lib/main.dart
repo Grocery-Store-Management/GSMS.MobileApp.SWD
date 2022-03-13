@@ -38,15 +38,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
 
-    var initialzationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettings =
-        InitializationSettings(android: initialzationSettingsAndroid);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  void initialization() async {
+    var _initialzationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var _initializationSettings = InitializationSettings(android: _initialzationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(_initializationSettings);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -63,7 +59,6 @@ class _MyAppState extends State<MyApp> {
                 channelDescription: channel.description,
                 color: Colors.blue,
                 // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
                 icon: "@mipmap/ic_launcher",
               ),
             ));
@@ -91,13 +86,16 @@ class _MyAppState extends State<MyApp> {
       }
     });
 
-    getToken();
+    String? token = await FirebaseMessaging.instance.getToken();
+    print(token);
+
+    FlutterNativeSplash.remove();
   }
 
-  String? token;
-  getToken() async {
-    token = await FirebaseMessaging.instance.getToken();
-    print(token);
+  @override
+  void initState() {
+    super.initState();
+    initialization();
   }
 
   @override

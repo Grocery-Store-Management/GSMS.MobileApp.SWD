@@ -1,6 +1,6 @@
 class Product {
   String? id;
-  int? atomicPrice;
+  double? atomicPrice;
   String? masterProductId;
   String? name;
   String? imageUrl;
@@ -27,14 +27,14 @@ class Product {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['atomicPrice'] = this.atomicPrice;
-    data['masterProductId'] = this.masterProductId;
-    data['name'] = this.name;
-    data['imageUrl'] = this.imageUrl;
-    data['categoryId'] = this.categoryId;
-    data['isDeleted'] = this.isDeleted;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['atomicPrice'] = atomicPrice;
+    data['masterProductId'] = masterProductId;
+    data['name'] = name;
+    data['imageUrl'] = imageUrl;
+    data['categoryId'] = categoryId;
+    data['isDeleted'] = isDeleted;
     return data;
   }
 }

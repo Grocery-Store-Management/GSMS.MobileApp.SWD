@@ -18,15 +18,10 @@ class _OrderState extends State<OrderScreen> {
   final ApiProvider apiProvider = ApiProvider();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order'),
+        title: const Text('Orders'),
       ),
       body: BlocProvider(
         create: (_) => ImportOrderBloc(apiProvider: apiProvider)..add(ImportOrderFetched()),

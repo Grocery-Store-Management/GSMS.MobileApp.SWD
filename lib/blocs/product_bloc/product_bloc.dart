@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../models/product.dart';
-import '../../services/api_provider.dart';
+import 'package:gsms_mobileapp_swd/services/api_provider.dart';
+import 'package:gsms_mobileapp_swd/models/product.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
