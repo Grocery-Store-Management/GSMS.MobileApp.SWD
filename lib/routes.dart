@@ -8,6 +8,5 @@ import 'package:gsms_mobileapp_swd/screens/notification_screen/notification_list
 final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => const HomeScreen(),
   OrderScreen.routeName: (context) => const OrderScreen(),
-  OrderDetailScreen.routeName: (context) => const OrderDetailScreen(),
   NotificationList.routeName: (context) => const NotificationList(),
 };

@@ -21,12 +21,12 @@ class _HomeItemGridState extends State<HomeItemGrid> {
       crossAxisCount: 3,
       children: const <Widget>[
         ItemCard(
-          cardIcon: Icon(Icons.shopping_cart_outlined),
+          cardIcon: Icon(Icons.shopping_cart),
           cardName: 'Order',
           routeName: '/order_screen',
         ),
         ItemCard(
-          cardIcon: Icon(Icons.fastfood_outlined),
+          cardIcon: Icon(Icons.fastfood),
           cardName: 'Product',
           routeName: '/',
         ),
@@ -36,18 +36,18 @@ class _HomeItemGridState extends State<HomeItemGrid> {
           routeName: '/',
         ),
         ItemCard(
-          cardIcon: Icon(Icons.people_alt_outlined),
-          cardName: 'Employee',
+          cardIcon: Icon(Icons.store),
+          cardName: 'Store',
           routeName: '/',
         ),
         ItemCard(
-          cardIcon: Icon(Icons.remove_shopping_cart_outlined),
-          cardName: 'Sold out',
+          cardIcon: Icon(Icons.note),
+          cardName: 'Receipt',
           routeName: '/',
         ),
         ItemCard(
-          cardIcon: Icon(Icons.trending_down_outlined),
-          cardName: 'Low in Stock',
+          cardIcon: Icon(Icons.layers),
+          cardName: 'Category',
           routeName: '/',
         ),
       ],

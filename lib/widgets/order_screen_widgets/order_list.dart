@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gsms_mobileapp_swd/widgets/bottom_loader.dart';
 import 'package:gsms_mobileapp_swd/widgets/order_screen_widgets/order_list_item.dart';
-import 'package:gsms_mobileapp_swd/blocs/import_order_bloc.dart';
+import 'package:gsms_mobileapp_swd/blocs/import_order_bloc/import_order_bloc.dart';
+
+import '../bottom_loader.dart';
 
 class OrderList extends StatefulWidget {
   const OrderList({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _OrderListState extends State<OrderList> {
             }
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return index >= state.orders.length
+                return index >= state.orders.length && !state.hasReachedMax
                     ? BottomLoader()
                     : OrderListItem(order: state.orders[index]);
               },
