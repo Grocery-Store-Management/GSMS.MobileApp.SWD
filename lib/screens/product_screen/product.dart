@@ -18,6 +18,7 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   final ApiProvider apiProvider = ApiProvider();
   final _scrollController = ScrollController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -30,13 +31,24 @@ class _ProductScreenState extends State<ProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) {
+                return ProductCreateDialog(formKey: _formKey);
+              },
+            ),
+          ),
+        ],
       ),
       body: BlocProvider(
         create: (_) =>
             ProductBloc(apiProvider: apiProvider)..add(ProductFetched()),
         child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) {
-            switch(state.status) {
+            switch (state.status) {
               case ProductStatus.failure:
                 return const Center(child: Text('Failed to fetch products'));
               case ProductStatus.success:
@@ -45,7 +57,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 }
                 return ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    return index >= state.products.length && !state.hasReachedMax
+                    return index >= state.products.length &&
+                            !state.hasReachedMax
                         ? BottomLoader()
                         : ProductListItem(product: state.products[index]);
                   },
@@ -84,6 +97,79 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 }
 
+class ProductCreateDialog extends StatelessWidget {
+  const ProductCreateDialog({
+    Key? key,
+    required GlobalKey<FormState> formKey,
+  })  : _formKey = formKey,
+        super(key: key);
+
+  final GlobalKey<FormState> _formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Stack(
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          Positioned(
+            right: -40.0,
+            top: -40.0,
+            child: InkResponse(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: CircleAvatar(
+                child: Icon(Icons.close),
+                backgroundColor: Colors.red,
+              ),
+            ),
+          ),
+          Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Product name',
+                    ),
+                    validator: (String? value) {
+                      return (value != null && value.contains(RegExp(r'^[a-zA-Z0-9&%=]+$'))) ? 'No special characters' : null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Atomic price',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    child: Text("Submit"),
+                    onPressed: () {
+                      // TODO: onPressed save date to form and call createProduct
+                      if (_formKey.currentState != null) {
+                        _formKey.currentState?.save();
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ProductListItem extends StatelessWidget {
   const ProductListItem({Key? key, required this.product}) : super(key: key);
 
@@ -110,8 +196,7 @@ class ProductListItem extends StatelessWidget {
                           maxWidth: MediaQuery.of(context).size.width * 0.28,
                           maxHeight: MediaQuery.of(context).size.width * 0.28,
                         ),
-                        child: Image.network(
-                            'https://picsum.photos/250?image=9',
+                        child: Image.network('${product.imageUrl}',
                             fit: BoxFit.fill),
                       ),
                     ),
@@ -123,16 +208,18 @@ class ProductListItem extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(top: 8.0),
                             child: Text(
-                              "${product.name}",
+                              '${product.name}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
                             ),
                           ),
-                          Divider(thickness: 1.5,),
+                          Divider(
+                            thickness: 1.5,
+                          ),
                           Text(
-                            "Price: ${product.atomicPrice} VNĐ",
+                            "Atomic Price: ${product.atomicPrice} VNĐ",
                             style: TextStyle(
                               fontSize: 16,
                             ),

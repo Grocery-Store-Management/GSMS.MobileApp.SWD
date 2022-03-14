@@ -6,3 +6,11 @@ abstract class ProductEvent extends Equatable {
 }
 
 class ProductFetched extends ProductEvent {}
+
+class ProductCreated extends ProductEvent {
+  final double? atomicPrice;
+  final String? name;
+  final String? imageUrl;
+  final String? categoryId;
+  ProductCreated(this.atomicPrice, this.name, this.imageUrl, this.categoryId);
+}

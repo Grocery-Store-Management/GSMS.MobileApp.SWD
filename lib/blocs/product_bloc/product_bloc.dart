@@ -12,6 +12,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ProductFetched>(
       _fetchProduct,
     );
+    // on<ProductCreated>(
+    //   _createProduct,
+    // );
   }
 
   final ApiProvider apiProvider;
@@ -41,6 +44,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(state.copyWith(status: ProductStatus.failure));
     }
   }
+
+  // Future<void> _createProduct(ProductFetched event, Emitter<ProductState> emit) async {
+  //   Product response = Product();
+  //   if (response == null) {
+  //     response = await apiProvider.createProduct();
+  //     return
+  //   }
+  // }
 }
 
 class NetworkError extends Error {}
