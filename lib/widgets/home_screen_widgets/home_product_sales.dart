@@ -8,27 +8,30 @@ class ProductSales extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 220,
-      width: 215,
-      child: Card(
-        elevation: 5,
-        shadowColor: Colors.blueGrey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 15.0),
-              child: Text(
-                "Product Sales",
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w400),
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+      child: SizedBox(
+        height: 220,
+        width: 215,
+        child: Card(
+          elevation: 5,
+          shadowColor: Colors.blueGrey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 15.0),
+                child: Text(
+                  "Product Sales",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w400),
+                ),
               ),
-            ),
-            SalesChart(),
-          ],
+              SalesChart(),
+            ],
+          ),
         ),
       ),
     );

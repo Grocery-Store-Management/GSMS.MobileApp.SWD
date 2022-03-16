@@ -16,6 +16,11 @@ class NotificationList extends StatefulWidget {
 class _NotificationListState extends State<NotificationList> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Notifications'),
+      ),
+      body: Container(),
+    );
   }
 }

@@ -7,14 +7,15 @@ class Product {
   String? categoryId;
   bool? isDeleted;
 
-  Product(
-      {this.id,
-        this.atomicPrice,
-        this.masterProductId,
-        this.name,
-        this.imageUrl,
-        this.categoryId,
-        this.isDeleted,});
+  Product({
+    this.id,
+    this.atomicPrice,
+    this.masterProductId,
+    this.name,
+    this.imageUrl,
+    this.categoryId,
+    this.isDeleted,
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -28,13 +29,18 @@ class Product {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['atomicPrice'] = atomicPrice;
-    data['masterProductId'] = masterProductId;
-    data['name'] = name;
-    data['imageUrl'] = imageUrl;
-    data['categoryId'] = categoryId;
-    data['isDeleted'] = isDeleted;
+    data['id'] = id as String;
+    data['atomicPrice'] = atomicPrice as String;
+    data['masterProductId'] = masterProductId as String;
+    data['name'] = name as String;
+    data['imageUrl'] = imageUrl as String;
+    data['categoryId'] = categoryId as String;
+    data['isDeleted'] = isDeleted as String;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Product{id: $id, name: $name, atomicPrice: $atomicPrice, masterProductId: $masterProductId, imageUrl: $imageUrl, categoryId: $categoryId, isDeleted: $isDeleted}';
   }
 }

@@ -1,57 +1,51 @@
-import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:gsms_mobileapp_swd/services/api_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/models/product.dart';
+import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 
-part 'product_event.dart';
 part 'product_state.dart';
+part 'product_event.dart';
 
-class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  ProductBloc({required this.apiProvider}) : super(const ProductState()) {
-    on<ProductFetched>(
-      _fetchProduct,
-    );
-    // on<ProductCreated>(
-    //   _createProduct,
-    // );
-  }
+class ProductBloc extends  Bloc<ProductEvent, ProductState>{
 
-  final ApiProvider apiProvider;
+  ProductBloc() : super(const ProductState());
 
-  Future<void> _fetchProduct(ProductFetched event, Emitter<ProductState> emit) async {
-    if (state.hasReachedMax) return;
-    try {
-      if (state.status == ProductStatus.initial) {
-        final List<Product> response = await apiProvider.fetchProducts();
-        return emit(state.copyWith(
-          status: ProductStatus.success,
-          products: response,
-          hasReachedMax: response.length <= 10 ? true : false,
-        ));
+  @override
+  Stream<ProductState> mapEventToState(ProductEvent event) async* {
+    //final Product product;
+    if (event is GetAllEvent) {
+      try {
+        yield LoadingProduct();
+        final data = await ApiProvider().fetchProducts();
+        yield ProductState(products: data);
+      } catch (ex){
+        yield Failure(ex.toString());
       }
-      final List<Product> response = await apiProvider.fetchProducts();
-      response.isEmpty
-          ? emit(state.copyWith(hasReachedMax: true))
-          : emit(
-        state.copyWith(
-          status: ProductStatus.success,
-          products: List.of(state.products)..addAll(response),
-          hasReachedMax: response.length <= 10 ? true : false,
-        ),
-      );
-    } catch (_) {
-      emit(state.copyWith(status: ProductStatus.failure));
+    } else if (event is CreateEvent) {
+      try {
+        yield LoadingProduct();
+        dynamic formData;
+        formData = {
+          'atomicPrice': event.atomicPrice,
+          'masterProductId': event.masterProductId,
+          'name': event.name,
+          'imageUrl': event.imageUrl,
+          'categoryId': event.categoryId,
+          'isDeleted': event.isDeleted,
+        };
+        await ApiProvider().createProduct(formData);
+        yield SuccessCreate();
+      } catch(ex) {
+        yield Failure(ex.toString());
+      }
     }
+    // else if (event is  DeleteEvent) {
+    //   try {
+    //     yield LoadingDelete();
+    //     await APIWeb().delete(UserRepository.delete(event.id));
+    //     yield SuccessDelete();
+    //   } catch(ex) {
+    //     yield Failure(ex.toString());
+    //   }
+    // }
   }
-
-  // Future<void> _createProduct(ProductFetched event, Emitter<ProductState> emit) async {
-  //   Product response = Product();
-  //   if (response == null) {
-  //     response = await apiProvider.createProduct();
-  //     return
-  //   }
-  // }
 }
-
-class NetworkError extends Error {}

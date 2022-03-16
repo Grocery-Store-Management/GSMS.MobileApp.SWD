@@ -1,16 +1,25 @@
 part of 'product_bloc.dart';
 
-abstract class ProductEvent extends Equatable {
-  @override
-  List<Object> get props => [];
+abstract class ProductEvent {}
+
+class GetAllEvent extends ProductEvent{}
+
+class GetIdEvent extends ProductEvent{
+  int id;
+  GetIdEvent({required this.id});
 }
 
-class ProductFetched extends ProductEvent {}
+class CreateEvent extends ProductEvent{
+  double? atomicPrice;
+  String? masterProductId;
+  String? name;
+  String? imageUrl;
+  String? categoryId;
+  bool? isDeleted;
+  CreateEvent({required this.atomicPrice, this.masterProductId, this.name, this.isDeleted, this.categoryId, this.imageUrl});
+}
 
-class ProductCreated extends ProductEvent {
-  final double? atomicPrice;
-  final String? name;
-  final String? imageUrl;
-  final String? categoryId;
-  ProductCreated(this.atomicPrice, this.name, this.imageUrl, this.categoryId);
+class DeleteEvent extends ProductEvent{
+  int id;
+  DeleteEvent({required this.id});
 }
