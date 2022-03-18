@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/widgets/product_screen_widgets/product_create_dialog.dart';
+import 'package:gsms_mobileapp_swd/blocs/product_bloc/product_bloc.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
@@ -16,7 +18,24 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return const ProductList();
+  }
+}
+
+class ProductList extends StatefulWidget {
+  const ProductList({Key? key}) : super(key: key);
+
+  @override
+  State<ProductList> createState() => _ProductListState();
+}
+
+class _ProductListState extends State<ProductList> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Products'),
         actions: [

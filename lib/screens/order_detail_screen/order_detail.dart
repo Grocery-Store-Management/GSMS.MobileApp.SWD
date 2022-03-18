@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/models/import_order_detail.dart';
 import 'package:gsms_mobileapp_swd/widgets/bottom_nav_bar.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
-import 'package:gsms_mobileapp_swd/blocs/import_order_detail_bloc/import_order_detail_bloc.dart';
-
-import '../../widgets/bottom_loader.dart';
+import 'package:gsms_mobileapp_swd/blocs/import_order_detail/import_order_detail_bloc.dart';
+import 'package:gsms_mobileapp_swd/widgets/bottom_loader.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   const OrderDetailScreen({Key? key}) : super(key: key);

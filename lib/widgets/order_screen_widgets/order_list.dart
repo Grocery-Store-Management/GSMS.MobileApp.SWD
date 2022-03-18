@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/widgets/order_screen_widgets/order_list_item.dart';
-import 'package:gsms_mobileapp_swd/blocs/import_order_bloc/import_order_bloc.dart';
+import 'package:gsms_mobileapp_swd/blocs/import_order/import_order_bloc.dart';
 import 'package:gsms_mobileapp_swd/widgets/bottom_loader.dart';
 
 class OrderList extends StatefulWidget {

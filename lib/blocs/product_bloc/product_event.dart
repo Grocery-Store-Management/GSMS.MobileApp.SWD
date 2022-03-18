@@ -10,7 +10,7 @@ class GetIdEvent extends ProductEvent{
 }
 
 class CreateEvent extends ProductEvent{
-  double? atomicPrice;
+  String? atomicPrice;
   String? masterProductId;
   String? name;
   String? imageUrl;
