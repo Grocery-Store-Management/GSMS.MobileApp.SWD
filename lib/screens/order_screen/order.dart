@@ -25,7 +25,7 @@ class _OrderState extends State<OrderScreen> {
       ),
       body: BlocProvider<ImportOrderBloc>(
         create: (_) => ImportOrderBloc(apiProvider: apiProvider)..add(GetAllEvent()),
-        child: const OrderList(),
+        child: OrderList(),
       ),
       bottomNavigationBar: const BottomNavigation(),
     );

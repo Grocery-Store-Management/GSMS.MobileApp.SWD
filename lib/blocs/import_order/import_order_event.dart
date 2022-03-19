@@ -10,6 +10,6 @@ class GetIdEvent extends ImportOrderEvent{
 }
 
 class DeleteEvent extends ImportOrderEvent {
-  String deleteId;
+  String? deleteId;
   DeleteEvent({required this.deleteId});
 }

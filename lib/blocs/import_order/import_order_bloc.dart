@@ -8,7 +8,7 @@ part 'import_order_event.dart';
 part 'import_order_state.dart';
 
 class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
-  ImportOrderBloc({required this.apiProvider}) : super(const ImportOrderState()) {
+  ImportOrderBloc({required this.apiProvider}) : super(OrderInitial()) {
     on<GetAllEvent>(
         _fetchOrder,
     );
@@ -20,20 +20,20 @@ class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
   final ApiProvider apiProvider;
 
   Future<void> _fetchOrder(GetAllEvent event, Emitter<ImportOrderState> emit) async {
-    emit(LoadingOrder());
     try {
+      emit(OrderInitial());
       final data = await apiProvider.fetchOrders();
-      emit(ImportOrderState(orders: data));
+      emit(OrderLoaded(data));
     } catch (e) {
       emit(Failure(e.toString()));
     }
   }
 
   Future<void> _deleteOrder(DeleteEvent event, Emitter<ImportOrderState> emit) async {
-    emit(LoadingDelete());
     try {
-      await apiProvider.deleteOrder(event.deleteId);
-      emit(SuccessDelete());
+      emit(DeleteLoading());
+      await apiProvider.deleteOrder(event.deleteId!);
+      emit(DeleteSuccess());
     } catch (e) {
       emit(Failure(e.toString()));
     }

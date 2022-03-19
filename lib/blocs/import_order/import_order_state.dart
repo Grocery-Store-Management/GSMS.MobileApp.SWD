@@ -1,20 +1,31 @@
 part of 'import_order_bloc.dart';
 
-class ImportOrderState {
-  final ImportOrder? order;
-  final List<ImportOrder>? orders;
-  const ImportOrderState({this.order, this.orders});
+abstract class ImportOrderState extends Equatable {
+  const ImportOrderState();
 
-  factory ImportOrderState.initial() => const ImportOrderState();
+  @override
+  List<Object?> get props => [];
 }
 
-class LoadingOrder extends ImportOrderState  {}
+class OrderInitial extends ImportOrderState {}
+
+class OrderLoading extends ImportOrderState  {}
+
+class OrderLoaded extends ImportOrderState  {
+  final List<ImportOrder> orders;
+  const OrderLoaded(this.orders);
+}
 
 class Failure extends ImportOrderState {
-  String error;
-  Failure(this.error);
+  final String error;
+  const Failure(this.error);
 }
 
-class LoadingDelete extends ImportOrderState  {}
+class DeleteLoading extends ImportOrderState  {}
 
-class SuccessDelete extends ImportOrderState  {}
+class DeleteSuccess extends ImportOrderState  {}
+
+class OrderError extends ImportOrderState {
+  final String? message;
+  const OrderError(this.message);
+}
