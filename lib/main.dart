@@ -41,7 +41,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   void initialization() async {
-    var _initialzationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var _initialzationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
     var _initializationSettings = InitializationSettings(android: _initialzationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(_initializationSettings);
 

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/widgets/product_screen_widgets/product_create_dialog.dart';
-import 'package:gsms_mobileapp_swd/blocs/product_bloc/product_bloc.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
@@ -14,7 +11,6 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  final ApiProvider apiProvider = ApiProvider();
 
   @override
   Widget build(BuildContext context) {

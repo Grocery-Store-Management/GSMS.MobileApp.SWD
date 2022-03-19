@@ -1,6 +1,6 @@
 part of 'product_bloc.dart';
 
-class ProductState{
+class ProductState {
   final Product? product;
   final List<Product>? products;
   const ProductState({this.product, this.products});

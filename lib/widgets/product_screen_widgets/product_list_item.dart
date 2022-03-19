@@ -37,21 +37,21 @@ class ProductListItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(top: 8.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
                               '${product.name}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
                             ),
                           ),
-                          Divider(
+                          const Divider(
                             thickness: 1.5,
                           ),
                           Text(
                             "Atomic Price: ${product.atomicPrice} VNĐ",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
