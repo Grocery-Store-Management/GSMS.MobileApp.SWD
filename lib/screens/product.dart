@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gsms_mobileapp_swd/widgets/product_screen_widgets/product_create_dialog.dart';
+import 'package:gsms_mobileapp_swd/widgets/product_widgets/product_create_dialog.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);

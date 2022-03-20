@@ -3,9 +3,9 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:gsms_mobileapp_swd/screens/home_screen/home.dart';
-import 'package:gsms_mobileapp_swd/services/firebase_provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:gsms_mobileapp_swd/services/firebase_provider.dart';
+import 'package:gsms_mobileapp_swd/screens/main.dart';
 
 import './routes.dart';
 import 'bloc_observer.dart';
@@ -87,6 +87,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     await FirebaseMessaging.instance.getToken();
+
     // Remove splash screen when done initializing firebase
     FlutterNativeSplash.remove();
   }
@@ -105,7 +106,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomeScreen(),
+      home: const MainMenu(),
+      initialRoute: '/',
       routes: routes,
     );
   }

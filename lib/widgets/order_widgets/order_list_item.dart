@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/blocs/import_order/import_order_bloc.dart';
 import 'package:gsms_mobileapp_swd/models/import_order.dart';
-import 'package:gsms_mobileapp_swd/screens/order_detail_screen/order_detail.dart';
+import 'package:gsms_mobileapp_swd/screens/order_detail.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 
 // This is the type used by the popup menu below.
