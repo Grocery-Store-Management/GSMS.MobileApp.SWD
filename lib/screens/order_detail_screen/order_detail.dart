@@ -4,7 +4,6 @@ import 'package:gsms_mobileapp_swd/models/import_order_detail.dart';
 import 'package:gsms_mobileapp_swd/widgets/bottom_nav_bar.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/blocs/import_order_detail/import_order_detail_bloc.dart';
-import 'package:gsms_mobileapp_swd/widgets/bottom_loader.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   const OrderDetailScreen({Key? key}) : super(key: key);
@@ -12,16 +11,14 @@ class OrderDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ApiProvider apiProvider = ApiProvider();
-    final String? orderID =
-        ModalRoute.of(context)!.settings.arguments.toString();
+    final String orderId = ModalRoute.of(context)!.settings.arguments.toString();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Order Detail'),
       ),
       body: BlocProvider(
-        create: (_) => ImportOrderDetailBloc(apiProvider: apiProvider)
-          ..add(ImportOrderDetailFetched(orderID)),
+        create: (_) => ImportOrderDetailBloc(apiProvider: apiProvider)..add(GetIdEvent(orderId: orderId)),
         child: const OrderDetailList(),
       ),
       bottomNavigationBar: const BottomNavigation(),
@@ -37,33 +34,28 @@ class OrderDetailList extends StatefulWidget {
 }
 
 class _OrderDetailListState extends State<OrderDetailList> {
-
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ImportOrderDetailBloc, ImportOrderDetailState>(
       builder: (context, state) {
-        switch (state.status) {
-          case ImportOrderDetailStatus.failure:
-            return const Center(child: Text('Failed to fetch orders'));
-          case ImportOrderDetailStatus.success:
-            if (state.orderDetail.isEmpty) {
-              return const Center(child: Text('No orders'));
-            }
-            return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return index >= state.orderDetail.length && !state.hasReachedMax
-                    ? BottomLoader()
-                    : OrderDetailItem(orderDetail: state.orderDetail[index]);
-              },
-            );
-          default:
-            return const Center(child: CircularProgressIndicator());
+        if (state is OrderDetailInitial) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is OrderDetailLoaded) {
+          return ListView.builder(
+            itemCount: state.details.length,
+            itemBuilder: (context, index) {
+              return OrderDetailItem(orderDetail: state.details[index],);
+            },
+          );
+        } else {
+          return Container();
         }
       },
     );
   }
 }
-
+// TODO: Fix widget to display info properly
 class OrderDetailItem extends StatelessWidget {
   const OrderDetailItem({
     Key? key, required this.orderDetail
@@ -88,7 +80,7 @@ class OrderDetailItem extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text('Order ID: ${orderDetail.importOrderId}', style: TextStyle(fontSize: 18)),
                       Text("Order Date - 20/02/2022", style: TextStyle(fontSize: 18)),
                       Text("Status - Done", style: TextStyle(fontSize: 18)),

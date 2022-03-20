@@ -41,17 +41,9 @@ class OrderListItem extends StatelessWidget {
           subtitle: Text(
               'Created Date: ${order.createdDate?.substring(0, 10)}\n'
               'Status: ${(order.isDeleted != null) ? 'Not Deleted' : 'Deleted'}'),
-          trailing: PopupMenuButton<Options>(
-            icon: const Icon(Icons.more_vert),
-            onSelected: (Options result) {
-              if (result == Options.edit) {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const EditStatusDialog();
-                  },
-                );
-              } else if (result == Options.delete) {
+          trailing: IconButton(
+              icon: const Icon(Icons.cancel, color: Colors.redAccent),
+              onPressed: () {
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -61,18 +53,7 @@ class OrderListItem extends StatelessWidget {
                     );
                   },
                 );
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<Options>>[
-              const PopupMenuItem<Options>(
-                value: Options.edit,
-                child: Text('Edit Status'),
-              ),
-              const PopupMenuItem<Options>(
-                value: Options.delete,
-                child: Text('Delete', style: TextStyle(color: Colors.red)),
-              ),
-            ],
+              },
           ),
         ),
       ),
@@ -101,7 +82,6 @@ class ConfirmDialog extends StatelessWidget {
                   primary: Colors.red,
                   textStyle: const TextStyle(fontSize: 20)),
               onPressed: () {
-                // TODO: Call delete api
                 context
                     .read<ImportOrderBloc>()
                     .add(DeleteEvent(deleteId: deleteId));
@@ -117,54 +97,6 @@ class ConfirmDialog extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class EditStatusDialog extends StatefulWidget {
-  const EditStatusDialog({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<EditStatusDialog> createState() => _EditStatusDialogState();
-}
-
-class _EditStatusDialogState extends State<EditStatusDialog> {
-  String dropdownValue = 'Available';
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Edit Status'),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          DropdownButton<String>(
-            value: dropdownValue, // default value
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValue = newValue!;
-              });
-            },
-            items: <String>['Available', 'Unavailable']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20)),
-            onPressed: () {
-              //TODO: Call put api to update Order
-            },
-            child: const Text('Submit'),
-          ),
-        ],
       ),
     );
   }

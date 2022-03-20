@@ -59,7 +59,6 @@ class _MyAppState extends State<MyApp> {
                 channel.name,
                 channelDescription: channel.description,
                 color: Colors.blue,
-                // TODO add a proper drawable resource to android, for now using
                 icon: "@mipmap/ic_launcher",
               ),
             ));

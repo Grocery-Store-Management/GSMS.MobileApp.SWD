@@ -6,7 +6,12 @@ abstract class ImportOrderDetailEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ImportOrderDetailFetched extends ImportOrderDetailEvent {
-  final String? orderId;
-  ImportOrderDetailFetched(this.orderId);
+class GetIdEvent extends ImportOrderDetailEvent{
+  final String orderId;
+  GetIdEvent({required this.orderId});
+}
+
+class DeleteEvent extends ImportOrderDetailEvent {
+  final String? deleteId;
+  DeleteEvent({required this.deleteId});
 }

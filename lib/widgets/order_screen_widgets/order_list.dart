@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gsms_mobileapp_swd/models/import_order.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
-import 'package:gsms_mobileapp_swd/widgets/loading_indicator.dart';
-import 'package:gsms_mobileapp_swd/widgets/message_dialog.dart';
 import 'package:gsms_mobileapp_swd/widgets/order_screen_widgets/order_list_item.dart';
 import 'package:gsms_mobileapp_swd/blocs/import_order/import_order_bloc.dart';
 
@@ -15,7 +12,6 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
-  final List<ImportOrder> _listOrder = [];
   final ApiProvider _apiProvider = ApiProvider();
 
   @override
@@ -32,20 +28,17 @@ class _OrderListState extends State<OrderList> {
     }, child: BlocBuilder<ImportOrderBloc, ImportOrderState>(
       builder: (context, state) {
         if (state is OrderInitial) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (state is OrderLoaded) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is OrderLoaded) {
           return ListView.builder(
-            itemCount: _listOrder.length,
+            itemCount: state.orders.length,
             itemBuilder: (context, index) {
               return OrderListItem(
-                order: _listOrder[index],
+                order: state.orders[index],
                 apiProvider: _apiProvider,
               );
             },
           );
-        } else if (state is OrderError) {
-          return Container();
         } else {
           return Container();
         }

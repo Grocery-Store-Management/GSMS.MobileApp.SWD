@@ -6,7 +6,7 @@ class ImportOrderDetail {
   String? productId;
   int? quantity;
   bool? isDeleted;
-  int? price;
+  double? price;
 
   ImportOrderDetail(
       {this.id,

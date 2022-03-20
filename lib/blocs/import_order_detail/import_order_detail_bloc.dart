@@ -8,37 +8,21 @@ part 'import_order_detail_event.dart';
 part 'import_order_detail_state.dart';
 
 class ImportOrderDetailBloc extends Bloc<ImportOrderDetailEvent, ImportOrderDetailState> {
-  ImportOrderDetailBloc({required this.apiProvider}) : super(const ImportOrderDetailState()) {
-    on<ImportOrderDetailFetched>(
-      _fetchOrder,
+  ImportOrderDetailBloc({required this.apiProvider}) : super(OrderDetailInitial()) {
+    on<GetIdEvent>(
+      _fetchOrderDetail,
     );
   }
 
   final ApiProvider apiProvider;
 
-  Future<void> _fetchOrder(ImportOrderDetailFetched event, Emitter<ImportOrderDetailState> emit) async {
-    if (state.hasReachedMax) return;
+  Future<void> _fetchOrderDetail(GetIdEvent event, Emitter<ImportOrderDetailState> emit) async {
     try {
-      if (state.status == ImportOrderDetailStatus.initial) {
-        final List<ImportOrderDetail> response = await apiProvider.fetchOrderDetails();
-        return emit(state.copyWith(
-          status: ImportOrderDetailStatus.success,
-          orderDetail: response,
-          hasReachedMax: response.length <= 10 ? true : false,
-        ));
-      }
-      final List<ImportOrderDetail> response = await apiProvider.fetchOrderDetails();
-      response.isEmpty
-          ? emit(state.copyWith(hasReachedMax: true))
-          : emit(
-        state.copyWith(
-          status: ImportOrderDetailStatus.success,
-          orderDetail: List.of(state.orderDetail)..addAll(response),
-          hasReachedMax: response.length <= 10 ? true : false,
-        ),
-      );
-    } catch (_) {
-      emit(state.copyWith(status: ImportOrderDetailStatus.failure));
+      emit(OrderDetailInitial());
+      final data = await apiProvider.fetchOrderDetails(event.orderId);
+      emit(OrderDetailLoaded(data));
+    } catch (e) {
+      emit(Failure(e.toString()));
     }
   }
 }
