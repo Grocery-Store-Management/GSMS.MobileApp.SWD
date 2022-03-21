@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/models/product.dart';
 import 'package:gsms_mobileapp_swd/models/import_order.dart';
 import 'package:gsms_mobileapp_swd/models/import_order_detail.dart';
+import 'package:gsms_mobileapp_swd/models/receipt_detail.dart';
 
 class ApiProvider {
   final dio = Dio();
   final String baseUrl = 'https://gsms-api.azurewebsites.net/api/v1.0';
 
   var token =
-      'eyJhbGciOiJSUzI1NiIsImtpZCI6ImYxZDU2YTI1MWU0ZGRhM2Y0NWM0MWZkNWQ0ZGEwMWQyYjlkNzJlMGQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiTmd1eWVuIEh1eW5oIE5oYXQgTWluaCIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHaXI3bzV6RW1lNVNBOHJFM3dndzlhcC14Wk1HYzBoSDI4enhMOHVmdz1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nc21zLTQxZjlhIiwiYXVkIjoiZ3Ntcy00MWY5YSIsImF1dGhfdGltZSI6MTY0Nzc0NDExMSwidXNlcl9pZCI6ImEwWndnd1pNc29oTktTQTBqcUIyNXNhUTVQZjEiLCJzdWIiOiJhMFp3Z3daTXNvaE5LU0EwanFCMjVzYVE1UGYxIiwiaWF0IjoxNjQ3NzQ0MTExLCJleHAiOjE2NDc3NDc3MTEsImVtYWlsIjoibWluaG5obnNlMTMwNTE3QGZwdC5lZHUudm4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJnb29nbGUuY29tIjpbIjExNjIzNjE5MjUzNzAzMzcwMTU2NyJdLCJlbWFpbCI6WyJtaW5obmhuc2UxMzA1MTdAZnB0LmVkdS52biJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.USZWbYcyoFYeho345vHrE2TiB5f1RKJPEKp_1pZ1_fxeO24bSK6GzZIt2s2Out5bY463Fl57eLk56miGMAyRjeEEelZ3OeOXy8GufbvesshZbIFcQkffocwfLBu8vtDBSDY-pVcf_ChgJDRk2zH4BlpnldyNUH3DnDC8dp6vgYZlkeg81AFehWeinmX_9143GzT1d2oG6Ox-kR1fZT_Xbe6M9P1fAsyrwRi2PUw5K7noyqb7QqSvYa_OJ3D5-TEDQi17tZzTMvUkEGKGb6OEFwbRFEd6Ix0CltzQKoezXwKtLp6dyHuY4Ty9n0UhBT9c-xdooURL_gHifFpF_5ySvw';
+      'eyJhbGciOiJSUzI1NiIsImtpZCI6ImYxZDU2YTI1MWU0ZGRhM2Y0NWM0MWZkNWQ0ZGEwMWQyYjlkNzJlMGQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiTmd1eWVuIEh1eW5oIE5oYXQgTWluaCIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHaXI3bzV6RW1lNVNBOHJFM3dndzlhcC14Wk1HYzBoSDI4enhMOHVmdz1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nc21zLTQxZjlhIiwiYXVkIjoiZ3Ntcy00MWY5YSIsImF1dGhfdGltZSI6MTY0Nzg3NjQyMCwidXNlcl9pZCI6ImEwWndnd1pNc29oTktTQTBqcUIyNXNhUTVQZjEiLCJzdWIiOiJhMFp3Z3daTXNvaE5LU0EwanFCMjVzYVE1UGYxIiwiaWF0IjoxNjQ3ODc2NDIwLCJleHAiOjE2NDc4ODAwMjAsImVtYWlsIjoibWluaG5obnNlMTMwNTE3QGZwdC5lZHUudm4iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJnb29nbGUuY29tIjpbIjExNjIzNjE5MjUzNzAzMzcwMTU2NyJdLCJlbWFpbCI6WyJtaW5obmhuc2UxMzA1MTdAZnB0LmVkdS52biJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.V97ry3CwgyEhAq-2vk7wWTh_b0HKVcdtLFCg5jUy7MjdvHgbUQgBqI-sZV53kwvjWL8KfZBvRbtUF7l5RIUHeL-CzLJjd5rB5cLvrm1aP_uJYQDlILxp9dx4XSKIYO033ZU1HjghjvUSdnIvBNhvV3UinnMr1BBwoRYyAcZ4Gh6_JOvCTH3It0ST6cvBNKJlkfDJRYLA9s6FYLuT24HuNxmwdmkEoB1coa8Dg55OfGHA1M0XjkfhZsLtJNpXbh9F6hhMkP2_8bAhBrK_sMicbdzr2IYD6yeXtlq88_Pmt5IToMBjD3SypVeWjkOddNAv51fUhaRiq0wi9DQWwabFeA';
 
   /* ImportOrder API */
 
@@ -27,6 +28,7 @@ class ApiProvider {
         debugPrint('STATUS: ${error.response?.statusCode}');
         debugPrint('DATA: ${error.response?.data}');
         debugPrint('HEADERS: ${error.response?.headers}');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
       } else {
         debugPrint('Error sending request!');
         debugPrint("Exception occurred: $error stackTrace: $stacktrace");
@@ -130,6 +132,28 @@ class ApiProvider {
       }
     }
     return isCreated;
+  }
+
+  /* ReceiptDetail API */
+
+  Future<List<ReceiptDetail>> fetchReceiptDetails() async {
+    List<ReceiptDetail> list = [];
+    dio.options.headers = {"Authorization": 'Bearer $token'};
+    try {
+      var response = await dio.get(baseUrl + '/receipt-details', options: Options(responseType: ResponseType.plain));
+      list = (json.decode(response.data) as List).map((e) => ReceiptDetail.fromJson(e)).toList();
+    } catch (error, stacktrace) {
+      if (error is DioError) {
+        debugPrint('An error has occurred!');
+        debugPrint('STATUS: ${error.response?.statusCode}');
+        debugPrint('DATA: ${error.response?.data}');
+        debugPrint('HEADERS: ${error.response?.headers}');
+      } else {
+        debugPrint('Error sending request!');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
+      }
+    }
+    return list;
   }
 }
 

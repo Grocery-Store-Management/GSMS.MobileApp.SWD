@@ -1,36 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gsms_mobileapp_swd/blocs/receipt_detail/receipt_detail_bloc.dart';
+import 'package:gsms_mobileapp_swd/services/api_provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-// TODO: Call Receipt Api for chart's data
-class ProductSales extends StatelessWidget {
-  const ProductSales({
-    Key? key,
-  }) : super(key: key);
+class ProductSales extends StatefulWidget {
+  const ProductSales({Key? key}) : super(key: key);
+
+  @override
+  State<ProductSales> createState() => _ProductSalesState();
+}
+
+class _ProductSalesState extends State<ProductSales> {
+  final apiProvider = ApiProvider();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
       child: SizedBox(
-        height: 220,
+        height: 300,
         width: 215,
         child: Card(
           elevation: 5,
           shadowColor: Colors.blueGrey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
-              Padding(
+            children: <Widget>[
+              const Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 15.0),
                 child: Text(
-                  "Product Sales",
+                  "Top product sales of the month",
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.green,
                       fontWeight: FontWeight.w400),
                 ),
               ),
-              SalesChart(),
+              BlocProvider(
+                  create: (_) => ReceiptDetailBloc(apiProvider: apiProvider)
+                    ..add(GetAllEvent()),
+                  child: const SalesChart()),
             ],
           ),
         ),
@@ -49,10 +59,8 @@ class SalesChart extends StatefulWidget {
 }
 
 class _SalesChartState extends State<SalesChart> {
-  Map<String, double> dataMap = {
-    "Đồ ăn": 3.0,
-    "Sản phẩm mặc định": 3.0,
-  };
+  List<LineData> chartData = [];
+  final TooltipBehavior _tooltipBehavior = TooltipBehavior(enable: true);
 
   @override
   void initState() {
@@ -61,32 +69,32 @@ class _SalesChartState extends State<SalesChart> {
 
   @override
   Widget build(BuildContext context) {
-    return PieChart(
-      dataMap: dataMap,
-      animationDuration: Duration(milliseconds: 800),
-      chartLegendSpacing: 32,
-      chartRadius: MediaQuery.of(context).size.width / 3.2,
-      initialAngleInDegree: 0,
-      chartType: ChartType.disc,
-      ringStrokeWidth: 32,
-      legendOptions: const LegendOptions(
-        showLegendsInRow: false,
-        legendPosition: LegendPosition.right,
-        showLegends: true,
-        legendShape: BoxShape.circle,
-        legendTextStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      chartValuesOptions: const ChartValuesOptions(
-        showChartValueBackground: true,
-        showChartValues: true,
-        showChartValuesInPercentage: false,
-        showChartValuesOutside: false,
-        decimalPlaces: 1,
-      ),
-      // gradientList: ---To add gradient colors---
-      // emptyColorGradient: ---Empty Color gradient---
-    );
+    return BlocConsumer<ReceiptDetailBloc, ReceiptDetailState>(
+        listener: (context, state) {
+      if (state is Loaded) {
+        chartData = state.chartData;
+      }
+    }, builder: (context, state) {
+      if (state is Initial) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is Loaded) {
+        return Expanded(
+          child: SfCartesianChart(
+              legend: Legend(isVisible: false),
+              tooltipBehavior: _tooltipBehavior,
+              primaryXAxis: CategoryAxis(),
+              series: <BarSeries<LineData, String>>[
+                BarSeries<LineData, String>(
+                    dataSource: chartData,
+                    xValueMapper: (LineData data, _) => data.xData!.replaceRange(10, data.xData!.length, '...'),
+                    yValueMapper: (LineData data, _) => data.yData,
+                    dataLabelMapper: (LineData data, _) => data.yData.toString(),
+                    dataLabelSettings: const DataLabelSettings(isVisible: true)),
+              ]),
+        );
+      } else {
+        return Container();
+      }
+    });
   }
 }

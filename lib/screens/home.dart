@@ -23,12 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> pages = [
-    ListView(
-      shrinkWrap: true,
-      children: const <Widget>[
-        HomeItemGrid(),
-        ProductSales(),
-      ],
+    RefreshIndicator(
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: <Widget>[
+          HomeItemGrid(),
+          ProductSales(),
+        ],
+      ),
+      onRefresh: () async {},
     ),
     MeetingScreen(),
     const HistoryMeetingScreen(),
@@ -94,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 
 // class NotificationBadge extends StatelessWidget {
 //   final int totalNotifications;
