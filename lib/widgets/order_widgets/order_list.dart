@@ -12,7 +12,7 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
-  final ApiProvider _apiProvider = ApiProvider();
+  final ApiProvider apiProvider = ApiProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _OrderListState extends State<OrderList> {
             itemBuilder: (context, index) {
               return OrderListItem(
                 order: state.orders[index],
-                apiProvider: _apiProvider,
+                apiProvider: apiProvider,
               );
             },
           );

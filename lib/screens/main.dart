@@ -41,17 +41,17 @@ class _MainMenuState extends State<MainMenu> {
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
         inactiveColorSecondary: Colors.purple,
+        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+          initialRoute: '/',
+          routes: routes,
+        ),
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
         title: ("Home"),
         activeColorPrimary: Colors.blueAccent,
-        activeColorSecondary: Colors.white,
-        inactiveColorPrimary: Colors.white,
-        routeAndNavigatorSettings: RouteAndNavigatorSettings(
-          initialRoute: '/',
-          routes: routes,
-        ),
+        activeColorSecondary: Colors.green,
+        inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.notifications),
@@ -79,37 +79,19 @@ class _MainMenuState extends State<MainMenu> {
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
-          ? 0.0
+          ? 10.0
           : kBottomNavigationBarHeight,
       hideNavigationBarWhenKeyboardShows: true,
-      margin: const EdgeInsets.all(0.0),
+      margin: const EdgeInsets.only(top: 10.0),
       popActionScreens: PopActionScreensType.all,
-      bottomScreenMargin: 0.0,
-      onWillPop: (context) async {
-        await showDialog(
-          useSafeArea: true,
-          context: context!,
-          builder: (context) => Container(
-            height: 50.0,
-            width: 50.0,
-            color: Colors.white,
-            child: ElevatedButton(
-              child: const Text("Close"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        );
-        return false;
-      },
+      bottomScreenMargin: 55.0,
       selectedTabScreenContext: (context) {
         testContext = context!;
       },
       hideNavigationBar: _hideNavBar,
       decoration: NavBarDecoration(
           colorBehindNavBar: Colors.indigo,
-          borderRadius: BorderRadius.circular(20.0)),
+          border: Border.all(color: Colors.grey)),
       popAllScreensOnTapOfSelectedTab: true,
       itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 400),
@@ -121,7 +103,7 @@ class _MainMenuState extends State<MainMenu> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style17, // Choose the nav bar style with this property
+          NavBarStyle.style3, // Choose the nav bar style with this property
     );
   }
 }

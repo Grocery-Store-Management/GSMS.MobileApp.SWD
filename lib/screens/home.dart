@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,16 +24,22 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: const <Widget>[
-          HomeItemGrid(),
-          ProductSales(),
-        ],
+      body: RefreshIndicator(
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: <Widget>[
+            HomeItemGrid(),
+            ProductSales(),
+          ],
+        ),
+        onRefresh: () async  {
+
+        },
       ),
     );
   }
 }
+
 
 // class NotificationBadge extends StatelessWidget {
 //   final int totalNotifications;

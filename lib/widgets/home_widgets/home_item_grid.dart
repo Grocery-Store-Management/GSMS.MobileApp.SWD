@@ -15,7 +15,7 @@ class _HomeItemGridState extends State<HomeItemGrid> {
     return GridView.count(
       primary: false,
       shrinkWrap: true,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 5.0),
       crossAxisSpacing: 5,
       mainAxisSpacing: 5,
       crossAxisCount: 3,
@@ -78,7 +78,7 @@ class _ItemCardState extends State<ItemCard> {
       elevation: 5,
       shadowColor: Colors.blueGrey,
       child: InkWell(
-        splashColor: Colors.blue.withAlpha(30),
+        splashColor: Colors.blue.withAlpha(50),
         onTap: () {
           Navigator.pushNamed(context, widget.route);
         },
