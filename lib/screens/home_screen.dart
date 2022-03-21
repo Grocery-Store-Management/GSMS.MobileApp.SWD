@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_item_grid.dart';
-import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_product_sales.dart';
 import 'package:gsms_mobileapp_swd/resources/auth_methods.dart';
 import 'package:gsms_mobileapp_swd/screens/history_meeting_screen.dart';
 import 'package:gsms_mobileapp_swd/screens/meeting_screen.dart';
@@ -23,31 +21,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> pages = [
-    ListView(
-      shrinkWrap: true,
-      children: const <Widget>[
-        HomeItemGrid(),
-        ProductSales(),
-      ],
-    ),
     MeetingScreen(),
     const HistoryMeetingScreen(),
     //const Text('Contacts'),
     CustomButton(text: 'Log Out', onPressed: () => AuthMethods().signOut()),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('GSM Admin'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_power),
-            onPressed: () {
-              // TODO: When press show an alert to ask user if they want to log out. Call logout function if Yes
-            },
-          )
-        ],
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        title: const Text('PRM392 - Group Project'),
+        centerTitle: true,
       ),
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
@@ -59,12 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         unselectedFontSize: 14,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.comment_bank,
-            ),
-            label: 'Dashboard',
-          ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.comment_bank,
@@ -94,30 +75,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// class NotificationBadge extends StatelessWidget {
-//   final int totalNotifications;
-//
-//   const NotificationBadge({required this.totalNotifications});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 40.0,
-//       height: 40.0,
-//       decoration: const BoxDecoration(
-//         color: Colors.red,
-//         shape: BoxShape.circle,
-//       ),
-//       child: Center(
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: Text(
-//             '$totalNotifications',
-//             style: TextStyle(color: Colors.white, fontSize: 20),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

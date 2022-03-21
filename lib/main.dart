@@ -6,6 +6,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gsms_mobileapp_swd/services/firebase_provider.dart';
 import 'package:gsms_mobileapp_swd/screens/main.dart';
+import 'package:gsms_mobileapp_swd/resources/auth_methods.dart';
+import 'package:gsms_mobileapp_swd/screens/home_screen.dart';
+import 'package:gsms_mobileapp_swd/screens/login_screen.dart';
+import 'package:gsms_mobileapp_swd/screens/video_call_screen.dart';
+import 'package:gsms_mobileapp_swd/utils/colors.dart';
 
 import './routes.dart';
 import 'bloc_observer.dart';
@@ -39,10 +44,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   void initialization() async {
-    var _initialzationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var _initializationSettings = InitializationSettings(android: _initialzationSettingsAndroid);
+    var _initialzationSettingsAndroid =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var _initializationSettings =
+        InitializationSettings(android: _initialzationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(_initializationSettings);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -107,7 +113,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.green,
       ),
       home: const MainMenu(),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: routes,
     );
   }
