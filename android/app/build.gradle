@@ -46,8 +46,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.gsms_mobileapp_swd"
-        minSdkVersion 19
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 24
+        targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
