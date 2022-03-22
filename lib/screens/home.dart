@@ -7,6 +7,8 @@ import 'package:gsms_mobileapp_swd/screens/meeting_screen.dart';
 import 'package:gsms_mobileapp_swd/utils/colors.dart';
 import 'package:gsms_mobileapp_swd/widgets/custom_button.dart';
 
+import 'login_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -36,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     MeetingScreen(),
     const HistoryMeetingScreen(),
     //const Text('Contacts'),
+
     CustomButton(text: 'Log Out', onPressed: () => AuthMethods().signOut()),
   ];
   @override
@@ -47,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.settings_power),
             onPressed: () {
+              Navigator.pushNamed(context, '/login');
               // TODO: When press show an alert to ask user if they want to log out. Call logout function if Yes
             },
           )

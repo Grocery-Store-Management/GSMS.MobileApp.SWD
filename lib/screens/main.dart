@@ -4,7 +4,9 @@ import 'package:gsms_mobileapp_swd/screens/home.dart';
 import 'package:gsms_mobileapp_swd/screens/order.dart';
 import 'package:gsms_mobileapp_swd/screens/product.dart';
 
+import '../resources/auth_methods.dart';
 import '../routes.dart';
+import 'login_screen.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -68,6 +70,22 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
+    StreamBuilder(
+      stream: AuthMethods().authChanges,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.hasData) {
+          return const HomeScreen();
+        }
+
+        return const LoginScreen();
+      },
+    );
     return PersistentTabView(
       context,
       controller: _controller,
