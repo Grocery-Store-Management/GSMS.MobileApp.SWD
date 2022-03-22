@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/resources/jitsi_meet_methods.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_meeting_button.dart';
 
+import '../resources/auth_methods.dart';
+import '../widgets/custom_button.dart';
+
 class MeetingScreen extends StatelessWidget {
   MeetingScreen({Key? key}) : super(key: key);
 
@@ -37,11 +40,6 @@ class MeetingScreen extends StatelessWidget {
                   onPressed: createNewMeeting,
                   text: 'New Meeting',
                   icon: Icons.videocam,
-                ),
-                HomeMeetingButton(
-                  onPressed: () => joinMeeting(context),
-                  text: 'Join Meeting',
-                  icon: Icons.add_box_rounded,
                 ),
                 /*HomeMeetingButton(
                 onPressed: () {},
