@@ -12,6 +12,9 @@ class ReceiptDetailBloc extends Bloc<ReceiptDetailEvent, ReceiptDetailState> {
     on<GetAllEvent>(
       _fetchReceiptDetails,
     );
+    on<GetIdEvent>(
+      _fetchReceiptDetailId
+    );
   }
 
   final ApiProvider apiProvider;
@@ -21,17 +24,7 @@ class ReceiptDetailBloc extends Bloc<ReceiptDetailEvent, ReceiptDetailState> {
     Map map = {};
     try {
       emit(Initial());
-
       final data = await apiProvider.fetchReceiptDetails();
-
-      // final List<ReceiptDetail> data = [
-      //   ReceiptDetail(name: 'AppleOrangeBanana', quantity: 5),
-      //   ReceiptDetail(name: 'AppleBananaOrange', quantity: 50),
-      //   ReceiptDetail(name: 'OrangeBananaApple', quantity: 23),
-      //   ReceiptDetail(name: 'OrangeAppleBanana', quantity: 4),
-      //   ReceiptDetail(name: 'BananaOrangeApple', quantity: 7),
-      //   ReceiptDetail(name: 'BananaAppleOrange', quantity: 13),
-      // ];
 
       for (var element in data) {
         String? key = element.name;
@@ -43,7 +36,22 @@ class ReceiptDetailBloc extends Bloc<ReceiptDetailEvent, ReceiptDetailState> {
       }
 
       chartData = map.entries.map((e) => LineData(e.key, e.value)).toList();
-      emit(Loaded(chartData));
+      emit(ChartLoaded(chartData));
+    } catch (e) {
+      emit(Failure(e.toString()));
+    }
+  }
+
+  Future<void> _fetchReceiptDetailId(GetIdEvent event, Emitter<ReceiptDetailState> emit) async {
+    try {
+      emit(Initial());
+      final data = await apiProvider.fetchReceiptDetailId(event.getId!);
+      final List<String> productImages = [];
+      for (var item in data) {
+        final product = await apiProvider.fetchProductId(item.productId!);
+        productImages.add(product.imageUrl!);
+      }
+      emit(DetailLoaded(data, productImages));
     } catch (e) {
       emit(Failure(e.toString()));
     }

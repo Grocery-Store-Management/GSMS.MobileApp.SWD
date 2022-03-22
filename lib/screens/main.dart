@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/screens/history_meeting_screen.dart';
 import 'package:gsms_mobileapp_swd/screens/meeting_screen.dart';
+import 'package:gsms_mobileapp_swd/screens/video_call_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:gsms_mobileapp_swd/screens/home.dart';
+<<<<<<< Updated upstream
 import 'package:gsms_mobileapp_swd/screens/notification_list.dart';
+=======
+
+>>>>>>> Stashed changes
 import '../resources/auth_methods.dart';
 import '../routes.dart';
 import 'login_screen.dart';
@@ -31,8 +36,8 @@ class _MainMenuState extends State<MainMenu> {
     return <Widget>[
       HomeScreen(),
       MeetingScreen(),
+      VideoCallScreen(),
       HistoryMeetingScreen(),
-      NotificationList(),
     ];
   }
 
@@ -58,16 +63,16 @@ class _MainMenuState extends State<MainMenu> {
         inactiveColorSecondary: Colors.blueGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.history),
-        title: "Call History",
-        activeColorPrimary: Colors.deepPurpleAccent,
+        icon: const Icon(Icons.phone_callback),
+        title: "Join Call",
+        activeColorPrimary: Colors.indigo,
         inactiveColorPrimary: Colors.grey,
         inactiveColorSecondary: Colors.blueGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.notifications),
-        title: ("Notifications"),
-        activeColorPrimary: Colors.deepOrange,
+        icon: const Icon(Icons.history),
+        title: "Call History",
+        activeColorPrimary: Colors.deepPurpleAccent,
         inactiveColorPrimary: Colors.grey,
         inactiveColorSecondary: Colors.blueGrey,
       ),

@@ -11,9 +11,15 @@ class Initial extends ReceiptDetailState {}
 
 class Loading extends ReceiptDetailState  {}
 
-class Loaded extends ReceiptDetailState  {
+class ChartLoaded extends ReceiptDetailState  {
   final List<LineData> chartData;
-  const Loaded(this.chartData);
+  const ChartLoaded(this.chartData);
+}
+
+class DetailLoaded extends ReceiptDetailState  {
+  final List<ReceiptDetail> details;
+  final List<String> images;
+  const DetailLoaded(this.details, this.images);
 }
 
 class Failure extends ReceiptDetailState {

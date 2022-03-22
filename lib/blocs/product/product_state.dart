@@ -1,22 +1,27 @@
 part of 'product_bloc.dart';
 
-class ProductState {
-  final Product? product;
-  final List<Product>? products;
-  const ProductState({this.product, this.products});
+abstract class ProductState extends Equatable {
+  const ProductState();
 
-  factory ProductState.initial() => const ProductState();
+  @override
+  List<Object?> get props => [];
 }
 
-class LoadingProduct extends ProductState  {}
+class Initial extends ProductState {}
 
-class SuccessCreate extends ProductState  {}
+class ProductsFetched extends ProductState  {
+  final List<Product> products;
+  final List<String> cateNameList;
+  final List<Details> productDetailList;
+  const ProductsFetched(this.products, this.cateNameList, this.productDetailList);
+}
+
+class ProductIdFetched extends ProductState  {
+  final Product product;
+  const ProductIdFetched(this.product);
+}
 
 class Failure extends ProductState {
-  String error;
-  Failure(this.error);
+  final String? error;
+  const Failure(this.error);
 }
-
-class LoadingDelete extends ProductState  {}
-
-class SuccessDelete extends ProductState  {}

@@ -41,6 +41,16 @@ class MeetingScreen extends StatelessWidget {
                   text: 'New Meeting',
                   icon: Icons.videocam,
                 ),
+<<<<<<< Updated upstream
+=======
+                HomeMeetingButton(
+                  onPressed: () => {
+                    Navigator.pushNamed(context, '/video-call')
+                  },
+                  text: 'Join Meeting',
+                  icon: Icons.add_box_rounded,
+                ),
+>>>>>>> Stashed changes
                 /*HomeMeetingButton(
                 onPressed: () {},
                 text: 'Schedule',

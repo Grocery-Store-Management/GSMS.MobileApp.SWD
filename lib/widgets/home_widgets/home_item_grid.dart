@@ -33,22 +33,22 @@ class _HomeItemGridState extends State<HomeItemGrid> {
         ItemCard(
           cardIcon: Icon(Icons.shop),
           cardName: 'Brand',
-          route: '/',
+          route: '/brand_screen',
         ),
         ItemCard(
           cardIcon: Icon(Icons.store),
           cardName: 'Store',
-          route: '/order_screen',
+          route: '/store_screen',
         ),
         ItemCard(
           cardIcon: Icon(Icons.note),
           cardName: 'Receipt',
-          route: '/order_screen',
+          route: '/receipt_screen',
         ),
         ItemCard(
           cardIcon: Icon(Icons.layers),
           cardName: 'Category',
-          route: '/order_screen',
+          route: '/category_screen',
         ),
       ],
     );

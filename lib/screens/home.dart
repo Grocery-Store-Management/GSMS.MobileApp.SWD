@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_item_grid.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_product_sales.dart';
+<<<<<<< Updated upstream
 import 'package:gsms_mobileapp_swd/resources/auth_methods.dart';
 import 'package:gsms_mobileapp_swd/screens/history_meeting_screen.dart';
 import 'package:gsms_mobileapp_swd/resources/jitsi_meet_methods.dart';
@@ -12,6 +13,8 @@ import 'package:gsms_mobileapp_swd/widgets/custom_button.dart';
 
 import '../widgets/home_meeting_button.dart';
 import 'login_screen.dart';
+=======
+>>>>>>> Stashed changes
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,28 +36,6 @@ joinMeeting(BuildContext context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // int _page = 0;
-  //
-  // onPageChanged(int page) {
-  //   setState(() {
-  //     _page = page;
-  //   });
-  // }
-
-  // List<Widget> pages = [
-  //   RefreshIndicator(
-  //     child: ListView(
-  //       physics: const AlwaysScrollableScrollPhysics(),
-  //       children: <Widget>[
-  //         HomeItemGrid(),
-  //         ProductSales(),
-  //       ],
-  //     ),
-  //     onRefresh: () async {},
-  //   ),
-  //   MeetingScreen(),
-  //   const HistoryMeetingScreen(),
-  //   //const Text('Contacts'),
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('GSM Admin'),
         actions: [
+          IconButton(
+              icon: const Icon(Icons.notifications),
+              onPressed: () {}),
           IconButton(
             icon: const Icon(Icons.settings_power),
             onPressed: () {

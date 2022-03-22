@@ -5,18 +5,8 @@ abstract class ProductEvent {}
 class GetAllEvent extends ProductEvent{}
 
 class GetIdEvent extends ProductEvent{
-  int id;
+  String id;
   GetIdEvent({required this.id});
-}
-
-class CreateEvent extends ProductEvent{
-  String? atomicPrice;
-  String? masterProductId;
-  String? name;
-  String? imageUrl;
-  String? categoryId;
-  bool? isDeleted;
-  CreateEvent({required this.atomicPrice, this.masterProductId, this.name, this.isDeleted, this.categoryId, this.imageUrl});
 }
 
 class DeleteEvent extends ProductEvent{

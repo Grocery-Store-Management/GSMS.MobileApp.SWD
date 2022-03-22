@@ -71,13 +71,13 @@ class _SalesChartState extends State<SalesChart> {
   Widget build(BuildContext context) {
     return BlocConsumer<ReceiptDetailBloc, ReceiptDetailState>(
         listener: (context, state) {
-      if (state is Loaded) {
+      if (state is ChartLoaded) {
         chartData = state.chartData;
       }
     }, builder: (context, state) {
       if (state is Initial) {
         return const Center(child: CircularProgressIndicator());
-      } else if (state is Loaded) {
+      } else if (state is ChartLoaded) {
         return Expanded(
           child: SfCartesianChart(
               legend: Legend(isVisible: false),

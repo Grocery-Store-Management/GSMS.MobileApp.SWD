@@ -9,6 +9,6 @@ abstract class ReceiptDetailEvent extends Equatable  {
 class GetAllEvent extends ReceiptDetailEvent {}
 
 class GetIdEvent extends ReceiptDetailEvent{
-  final String getId;
+  final String? getId;
   GetIdEvent({required this.getId});
 }

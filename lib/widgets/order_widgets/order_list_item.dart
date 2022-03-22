@@ -18,42 +18,45 @@ class OrderListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shadowColor: Colors.blueGrey,
-      child: InkWell(
-        splashColor: Colors.blue.withAlpha(30),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const OrderDetailScreen(),
-              settings: RouteSettings(
-                arguments: order.id,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        elevation: 5,
+        shadowColor: Colors.blueGrey,
+        child: InkWell(
+          splashColor: Colors.blue.withAlpha(30),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const OrderDetailScreen(),
+                settings: RouteSettings(
+                  arguments: order.id,
+                ),
               ),
+            );
+          },
+          child: ListTile(
+            isThreeLine: true,
+            leading: const Icon(Icons.shopping_basket, size: 30),
+            title: Text('${order.name}'),
+            subtitle: Text(
+                'Created Date: ${order.createdDate?.substring(0, 10)}\n'
+                'Status: ${(order.isDeleted != null) ? 'Not Deleted' : 'Deleted'}'),
+            trailing: IconButton(
+                icon: const Icon(Icons.cancel, color: Colors.redAccent),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (_) => ImportOrderBloc(apiProvider: apiProvider),
+                        child: ConfirmDialog(deleteId: order.id),
+                      );
+                    },
+                  );
+                },
             ),
-          );
-        },
-        child: ListTile(
-          isThreeLine: true,
-          leading: const Icon(Icons.shopping_basket, size: 30),
-          title: Text('${order.name}'),
-          subtitle: Text(
-              'Created Date: ${order.createdDate?.substring(0, 10)}\n'
-              'Status: ${(order.isDeleted != null) ? 'Not Deleted' : 'Deleted'}'),
-          trailing: IconButton(
-              icon: const Icon(Icons.cancel, color: Colors.redAccent),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return BlocProvider(
-                      create: (_) => ImportOrderBloc(apiProvider: apiProvider),
-                      child: ConfirmDialog(deleteId: order.id),
-                    );
-                  },
-                );
-              },
           ),
         ),
       ),
