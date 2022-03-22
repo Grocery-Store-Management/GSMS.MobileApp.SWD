@@ -9,6 +9,6 @@ final Map<String, WidgetBuilder> routes = {
   OrderScreen.routeName: (context) => const OrderScreen(),
   ProductScreen.routeName: (context) => const ProductScreen(),
   NotificationList.routeName: (context) => const NotificationList(),
-  '/login': (context) => const LoginScreen(),
-  '/video-call': (context) => const VideoCallScreen(),
+  LoginScreen.routeName: (context) => const LoginScreen(),
+  VideoCallScreen.routeName: (context) => const VideoCallScreen(),
 };

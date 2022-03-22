@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gsms_mobileapp_swd/screens/history_meeting_screen.dart';
+import 'package:gsms_mobileapp_swd/screens/meeting_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:gsms_mobileapp_swd/screens/home.dart';
-import 'package:gsms_mobileapp_swd/screens/order.dart';
 import 'package:gsms_mobileapp_swd/screens/notification_list.dart';
 
 import '../resources/auth_methods.dart';
@@ -23,14 +24,15 @@ class _MainMenuState extends State<MainMenu> {
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 1);
+    _controller = PersistentTabController(initialIndex: 0);
     _hideNavBar = false;
   }
 
   List<Widget> _buildScreens() {
-    return const <Widget>[
-      OrderScreen(),
+    return <Widget>[
       HomeScreen(),
+      MeetingScreen(),
+      HistoryMeetingScreen(),
       NotificationList(),
     ];
   }
@@ -38,28 +40,37 @@ class _MainMenuState extends State<MainMenu> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.shopping_cart),
-        title: "Order",
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.grey,
-        inactiveColorSecondary: Colors.purple,
-      ),
-      PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
         title: ("Home"),
-        activeColorPrimary: Colors.blueAccent,
+        activeColorPrimary: Colors.greenAccent,
         activeColorSecondary: Colors.green,
         inactiveColorPrimary: Colors.grey,
+        inactiveColorSecondary: Colors.blueGrey,
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: '/',
           routes: routes,
         ),
       ),
       PersistentBottomNavBarItem(
+        icon: const Icon(Icons.video_call),
+        title: "Video Call",
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.grey,
+        inactiveColorSecondary: Colors.blueGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(Icons.history),
+        title: "Call History",
+        activeColorPrimary: Colors.deepPurpleAccent,
+        inactiveColorPrimary: Colors.grey,
+        inactiveColorSecondary: Colors.blueGrey,
+      ),
+      PersistentBottomNavBarItem(
         icon: const Icon(Icons.notifications),
         title: ("Notifications"),
         activeColorPrimary: Colors.deepOrange,
         inactiveColorPrimary: Colors.grey,
+        inactiveColorSecondary: Colors.blueGrey,
       ),
     ];
   }
@@ -74,11 +85,9 @@ class _MainMenuState extends State<MainMenu> {
             child: CircularProgressIndicator(),
           );
         }
-
         if (snapshot.hasData) {
           return const HomeScreen();
         }
-
         return const LoginScreen();
       },
     );

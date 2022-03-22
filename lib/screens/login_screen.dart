@@ -5,6 +5,8 @@ import 'package:gsms_mobileapp_swd/widgets/custom_button.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
+  static String routeName = '/login';
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

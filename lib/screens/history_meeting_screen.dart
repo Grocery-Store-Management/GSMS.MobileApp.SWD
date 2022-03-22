@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/resources/firestore_methods.dart';
-import 'package:gsms_mobileapp_swd/utils/colors.dart';
 import 'package:intl/intl.dart';
 
 class HistoryMeetingScreen extends StatelessWidget {
@@ -16,7 +15,6 @@ class HistoryMeetingScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-
         return ListView.builder(
           itemCount: (snapshot.data! as dynamic).docs.length,
           itemBuilder: (context, index) => ListTile(

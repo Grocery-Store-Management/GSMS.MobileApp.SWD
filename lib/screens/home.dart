@@ -17,30 +17,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _page = 0;
-  onPageChanged(int page) {
-    setState(() {
-      _page = page;
-    });
-  }
+  // int _page = 0;
+  //
+  // onPageChanged(int page) {
+  //   setState(() {
+  //     _page = page;
+  //   });
+  // }
 
-  List<Widget> pages = [
-    RefreshIndicator(
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: <Widget>[
-          HomeItemGrid(),
-          ProductSales(),
-        ],
-      ),
-      onRefresh: () async {},
-    ),
-    MeetingScreen(),
-    const HistoryMeetingScreen(),
-    //const Text('Contacts'),
+  // List<Widget> pages = [
+  //   RefreshIndicator(
+  //     child: ListView(
+  //       physics: const AlwaysScrollableScrollPhysics(),
+  //       children: <Widget>[
+  //         HomeItemGrid(),
+  //         ProductSales(),
+  //       ],
+  //     ),
+  //     onRefresh: () async {},
+  //   ),
+  //   MeetingScreen(),
+  //   const HistoryMeetingScreen(),
+  //   //const Text('Contacts'),
 
-    CustomButton(text: 'Log Out', onPressed: () => AuthMethods().signOut()),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,47 +55,17 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: pages[_page],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: footerColor,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        onTap: onPageChanged,
-        currentIndex: _page,
-        type: BottomNavigationBarType.fixed,
-        unselectedFontSize: 14,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.comment_bank,
-            ),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.comment_bank,
-            ),
-            label: 'Create & Join',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.lock_clock,
-            ),
-            label: 'Meetings History',
-          ),
-          /*BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outline,
-            ),
-            label: 'Contacts',
-          ),*/
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings_outlined,
-            ),
-            label: 'Settings',
-          ),
-        ],
+      body: RefreshIndicator(
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: <Widget>[
+            HomeItemGrid(),
+            ProductSales(key: UniqueKey()),
+          ],
+        ),
+        onRefresh: () async {
+          setState(() {});
+        },
       ),
     );
   }

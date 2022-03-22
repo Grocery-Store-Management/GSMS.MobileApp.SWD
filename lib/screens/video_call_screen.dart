@@ -8,6 +8,8 @@ import 'package:gsms_mobileapp_swd/widgets/meeting_option.dart';
 class VideoCallScreen extends StatefulWidget {
   const VideoCallScreen({Key? key}) : super(key: key);
 
+  static String routeName = '/video-call';
+
   @override
   State<VideoCallScreen> createState() => _VideoCallScreenState();
 }
