@@ -7,7 +7,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gsms_mobileapp_swd/services/firebase_provider.dart';
 import 'package:gsms_mobileapp_swd/screens/main.dart';
 import 'package:gsms_mobileapp_swd/resources/auth_methods.dart';
-import 'package:gsms_mobileapp_swd/screens/home_screen.dart';
+import 'package:gsms_mobileapp_swd/screens/home.dart';
 import 'package:gsms_mobileapp_swd/screens/login_screen.dart';
 import 'package:gsms_mobileapp_swd/screens/video_call_screen.dart';
 import 'package:gsms_mobileapp_swd/utils/colors.dart';

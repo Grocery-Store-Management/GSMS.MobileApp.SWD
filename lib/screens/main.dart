@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:gsms_mobileapp_swd/screens/home.dart';
 import 'package:gsms_mobileapp_swd/screens/order.dart';
-import 'package:gsms_mobileapp_swd/screens/product.dart';
+import 'package:gsms_mobileapp_swd/screens/notification_list.dart';
 
 import '../resources/auth_methods.dart';
 import '../routes.dart';
@@ -31,7 +31,7 @@ class _MainMenuState extends State<MainMenu> {
     return const <Widget>[
       OrderScreen(),
       HomeScreen(),
-      ProductScreen(),
+      NotificationList(),
     ];
   }
 
@@ -43,10 +43,6 @@ class _MainMenuState extends State<MainMenu> {
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
         inactiveColorSecondary: Colors.purple,
-        routeAndNavigatorSettings: RouteAndNavigatorSettings(
-          initialRoute: '/',
-          routes: routes,
-        ),
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
@@ -54,16 +50,16 @@ class _MainMenuState extends State<MainMenu> {
         activeColorPrimary: Colors.blueAccent,
         activeColorSecondary: Colors.green,
         inactiveColorPrimary: Colors.grey,
+        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+          initialRoute: '/',
+          routes: routes,
+        ),
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.notifications),
         title: ("Notifications"),
         activeColorPrimary: Colors.deepOrange,
         inactiveColorPrimary: Colors.grey,
-        routeAndNavigatorSettings: RouteAndNavigatorSettings(
-          initialRoute: '/',
-          routes: routes,
-        ),
       ),
     ];
   }
