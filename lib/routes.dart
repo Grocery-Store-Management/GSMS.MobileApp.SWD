@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/screens/brand.dart';
 import 'package:gsms_mobileapp_swd/screens/category.dart';
 import 'package:gsms_mobileapp_swd/screens/login_screen.dart';
+import 'package:gsms_mobileapp_swd/screens/notification_list.dart';
 import 'package:gsms_mobileapp_swd/screens/order.dart';
 import 'package:gsms_mobileapp_swd/screens/product.dart';
 import 'package:gsms_mobileapp_swd/screens/receipt.dart';
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> routes = {
   StoreScreen.routeName: (context) => const StoreScreen(),
   ReceiptScreen.routeName: (context) => const ReceiptScreen(),
   CategoryScreen.routeName: (context) => const CategoryScreen(),
+  NotificationList.routeName: (context) => const NotificationList(),
 };

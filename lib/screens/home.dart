@@ -17,7 +17,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('GSM Admin'),
         actions: [
-          IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              Navigator.pushNamed(context, '/notification_list');
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.settings_power),
             onPressed: () {
