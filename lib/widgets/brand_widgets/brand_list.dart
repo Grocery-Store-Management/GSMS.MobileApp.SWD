@@ -31,14 +31,16 @@ class _BrandListState extends State<BrandList> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is Loaded) {
           return ListView.builder(
-            itemCount: state.brands.length,
-            itemBuilder: (context, index) {
-              return BrandListItem(
-                brand: state.brands[index],
-                apiProvider: apiProvider,
-              );
-            },
-          );
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: state.brands.length,
+              itemBuilder: (context, index) {
+                return BrandListItem(
+                  key: UniqueKey(),
+                  brand: state.brands[index],
+                  apiProvider: apiProvider,
+                );
+              },
+            );
         } else {
           return Container();
         }

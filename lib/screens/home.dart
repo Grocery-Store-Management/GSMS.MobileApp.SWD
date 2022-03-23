@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               AuthMethods().signOut();
               Navigator.pushNamed(context, '/login');
-              // TODO: When press show an alert to ask user if they want to log out. Call logout function if Yes
             },
           )
         ],

@@ -15,6 +15,12 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
     on<CreateEvent>(
       _createBrand,
     );
+    on<UpdateEvent>(
+      _updateBrand,
+    );
+    on<DeleteEvent>(
+      _deleteBrand,
+    );
   }
 
   final ApiProvider apiProvider;
@@ -40,6 +46,32 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
       );
       await apiProvider.createBrand(brand);
       emit(CreateSuccess());
+    } catch (e) {
+      emit(Failure(e.toString()));
+    }
+  }
+
+  Future<void> _updateBrand(UpdateEvent event, Emitter<BrandState> emit) async {
+    try {
+      emit(Loading());
+      final Brand brand = Brand(
+        id: event.brand.id,
+        name: event.brand.name,
+        createdDate: event.brand.createdDate,
+        isDeleted: event.brand.isDeleted,
+      );
+      await apiProvider.updateBrand(brand);
+      emit(UpdateSuccess());
+    } catch (e) {
+      emit(Failure(e.toString()));
+    }
+  }
+
+  Future<void> _deleteBrand(DeleteEvent event, Emitter<BrandState> emit) async {
+    try {
+      emit(Loading());
+      await apiProvider.deleteBrand(event.getId);
+      emit(DeleteSuccess());
     } catch (e) {
       emit(Failure(e.toString()));
     }

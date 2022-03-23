@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/blocs/brand/brand_bloc.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list.dart';
-import 'package:gsms_mobileapp_swd/widgets/loading_indicator.dart';
-import 'package:gsms_mobileapp_swd/widgets/message_dialog.dart';
 
-// TODO: Add Pull to Refresh
+import '../widgets/circular_loading.dart';
+// TODO: Figure out how to refresh on pull down
 class BrandScreen extends StatefulWidget {
   const BrandScreen({Key? key}) : super(key: key);
 
@@ -39,7 +38,11 @@ class _OrderState extends State<BrandScreen> {
       ),
       body: BlocProvider<BrandBloc>(
         create: (_) => BrandBloc(apiProvider: apiProvider)..add(GetAllEvent()),
-        child: const BrandList(),
+        child: RefreshIndicator(
+            onRefresh: () async {
+              setState(() {});
+            },
+            child: BrandList(key: UniqueKey())),
       ),
     );
   }
@@ -72,17 +75,14 @@ class _CreateDialogState extends State<CreateDialog> {
       child: BlocConsumer<BrandBloc, BrandState>(
         listener: (context, state) {
           if (state is Loading) {
-            WidgetsBinding.instance!
-                .addPostFrameCallback((_) => const LoadingIndicator());
-          } else if (state is CreateSuccess) {
-            clearForm();
-            Navigator.of(context, rootNavigator: true).pop();
-            WidgetsBinding.instance!.addPostFrameCallback(
-                    (_) => const MessageDialog(title: "Success", message: "Add Product Success"));
+            WidgetsBinding.instance!.addPostFrameCallback((_) => loadingIndicator(context, "Loading..."));
           } else if (state is Failure) {
-            Navigator.of(context, rootNavigator: true).pop();
-            WidgetsBinding.instance!.addPostFrameCallback(
-                    (_) => const MessageDialog(title: "Error", message: 'An error has occured'));
+            Navigator.of(context, rootNavigator: true).pop(); //close loading
+            WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(context, "Error!", 'An error has occurred'));
+          } else if (state is CreateSuccess) {
+            Navigator.of(context, rootNavigator: true).pop(); //close loading
+            Navigator.of(context).pop(); //close dialog
+            WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(context, "Success!", "New brand ${brandName.text} was added."));
           }
         },
         builder: (context, state) {
@@ -116,7 +116,8 @@ class _CreateDialogState extends State<CreateDialog> {
                             labelText: 'Brand name',
                           ),
                           validator: (String? value) {
-                            return (value != null && value.contains(RegExp(r'^[0-9&%=]+$')))
+                            return (value != null &&
+                                    value.contains(RegExp(r'^[0-9&%=]+$')))
                                 ? 'No special characters'
                                 : null;
                           },
@@ -128,7 +129,8 @@ class _CreateDialogState extends State<CreateDialog> {
                           child: const Text("Submit"),
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              context.read<BrandBloc>().add(CreateEvent(brandName: brandName.text.trim()));
+                              context.read<BrandBloc>().add(CreateEvent(
+                                  brandName: brandName.text.trim()));
                             }
                           },
                         ),

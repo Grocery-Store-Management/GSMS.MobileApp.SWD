@@ -56,7 +56,7 @@ class _OrderDetailListState extends State<OrderDetailList> {
     );
   }
 }
-// TODO: Fix widget to display info properly
+
 class OrderDetailItem extends StatelessWidget {
   const OrderDetailItem({
     Key? key, required this.orderDetail, required this.productImage

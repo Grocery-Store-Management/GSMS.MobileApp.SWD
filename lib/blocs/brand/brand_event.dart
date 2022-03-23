@@ -17,3 +17,13 @@ class CreateEvent extends BrandEvent{
   final String? brandName;
   CreateEvent({required this.brandName});
 }
+
+class UpdateEvent extends BrandEvent{
+  final Brand brand;
+  UpdateEvent({required this.brand});
+}
+
+class DeleteEvent extends BrandEvent{
+  final String getId;
+  DeleteEvent({required this.getId});
+}

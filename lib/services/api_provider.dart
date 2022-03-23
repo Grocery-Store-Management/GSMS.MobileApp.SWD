@@ -91,8 +91,7 @@ class ApiProvider {
       "isDeleted": false,
     };
     try {
-      Response response = await dio.post(baseUrl + '/brands', data: json.encode(formData));
-      print(response.data.toString());
+      await dio.post(baseUrl + '/brands', data: json.encode(formData));
     } catch (error, stacktrace) {
       if (error is DioError) {
         debugPrint('An error has occurred!');
@@ -105,6 +104,57 @@ class ApiProvider {
       }
     }
     return isCreated;
+  }
+
+  Future<bool> updateBrand(Brand brand) async {
+    bool isCreated = false;
+    if (user != null) {
+      token = await user.getIdToken();
+    }
+    dio.options.headers = {"Authorization": 'Bearer $token'};
+    var formData = {
+      "id": brand.id,
+      "name": brand.name,
+      "createdDate": brand.createdDate,
+      "isDeleted": brand.isDeleted,
+    };
+    try {
+      await dio.put(baseUrl + '/brands/${brand.id}', data: json.encode(formData));
+    } catch (error, stacktrace) {
+      if (error is DioError) {
+        debugPrint('An error has occurred!');
+        debugPrint('STATUS: ${error.response?.statusCode}');
+        debugPrint('DATA: ${error.response?.data}');
+        debugPrint('HEADERS: ${error.response?.headers}');
+      } else {
+        debugPrint('Error sending request!');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
+      }
+    }
+    return isCreated;
+  }
+
+  Future<bool> deleteBrand(String brandId) async {
+    if (user != null) {
+      token = await user.getIdToken();
+    }
+    bool isDeleted = false;
+    dio.options.headers = {"Authorization": 'Bearer $token'};
+    try {
+      await dio.delete(baseUrl + '/brands/$brandId');
+      isDeleted = true;
+    } catch (error, stacktrace) {
+      if (error is DioError) {
+        debugPrint('An error has occurred!');
+        debugPrint('STATUS: ${error.response?.statusCode}');
+        debugPrint('DATA: ${error.response?.data}');
+        debugPrint('HEADERS: ${error.response?.headers}');
+      } else {
+        debugPrint('Error sending request!');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
+      }
+    }
+    return isDeleted;
   }
 
 /* ImportOrder API */
