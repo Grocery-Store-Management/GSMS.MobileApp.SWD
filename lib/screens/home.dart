@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_item_grid.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_product_sales.dart';
+import 'package:gsms_mobileapp_swd/resources/auth_methods.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,19 +11,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('GSM Admin'),
         actions: [
-          IconButton(
-              icon: const Icon(Icons.notifications),
-              onPressed: () {}),
+          IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
           IconButton(
             icon: const Icon(Icons.settings_power),
             onPressed: () {
+              AuthMethods().signOut();
               Navigator.pushNamed(context, '/login');
               // TODO: When press show an alert to ask user if they want to log out. Call logout function if Yes
             },
