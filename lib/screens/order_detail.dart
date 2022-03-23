@@ -43,7 +43,10 @@ class _OrderDetailListState extends State<OrderDetailList> {
           return ListView.builder(
             itemCount: state.details.length,
             itemBuilder: (context, index) {
-              return OrderDetailItem(orderDetail: state.details[index],);
+              return OrderDetailItem(
+                orderDetail: state.details[index],
+                productImage: state.productsImages[index],
+              );
             },
           );
         } else {
@@ -56,34 +59,19 @@ class _OrderDetailListState extends State<OrderDetailList> {
 // TODO: Fix widget to display info properly
 class OrderDetailItem extends StatelessWidget {
   const OrderDetailItem({
-    Key? key, required this.orderDetail
+    Key? key, required this.orderDetail, required this.productImage
   }) : super(key: key);
 
   final ImportOrderDetail orderDetail;
+  final String productImage;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 380.0,
-            height: 100.0,
-            child: Card(
-                elevation: 5.0,
-                shadowColor: Colors.blueGrey,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Order Date - 20/02/2022", style: TextStyle(fontSize: 18)),
-                    ],
-                  ),
-                )),
-          ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.94,
             child: Card(
@@ -100,7 +88,7 @@ class OrderDetailItem extends StatelessWidget {
                           maxHeight: MediaQuery.of(context).size.width * 0.28,
                         ),
                         child: Image.network(
-                            'https://picsum.photos/250?image=9',
+                            productImage,
                             fit: BoxFit.fill),
                       ),
                     ),

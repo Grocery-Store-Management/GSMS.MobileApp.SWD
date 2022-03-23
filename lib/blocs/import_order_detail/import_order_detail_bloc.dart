@@ -20,7 +20,12 @@ class ImportOrderDetailBloc extends Bloc<ImportOrderDetailEvent, ImportOrderDeta
     try {
       emit(OrderDetailInitial());
       final data = await apiProvider.fetchOrderDetails(event.orderId);
-      emit(OrderDetailLoaded(data));
+      final List<String> productImages = [];
+      for (var item in data) {
+        final product = await apiProvider.fetchProductId(item.productId!);
+        productImages.add(product.imageUrl!);
+      }
+      emit(OrderDetailLoaded(data, productImages));
     } catch (e) {
       emit(Failure(e.toString()));
     }

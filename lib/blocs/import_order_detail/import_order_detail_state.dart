@@ -11,7 +11,8 @@ class OrderDetailInitial extends ImportOrderDetailState {}
 
 class OrderDetailLoaded extends ImportOrderDetailState  {
   final List<ImportOrderDetail> details;
-  const OrderDetailLoaded(this.details);
+  final List<String> productsImages;
+  const OrderDetailLoaded(this.details, this.productsImages);
 }
 
 class Failure extends ImportOrderDetailState {
