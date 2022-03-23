@@ -4,11 +4,7 @@ import 'package:gsms_mobileapp_swd/screens/meeting_screen.dart';
 import 'package:gsms_mobileapp_swd/screens/video_call_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:gsms_mobileapp_swd/screens/home.dart';
-<<<<<<< Updated upstream
-import 'package:gsms_mobileapp_swd/screens/notification_list.dart';
-=======
 
->>>>>>> Stashed changes
 import '../resources/auth_methods.dart';
 import '../routes.dart';
 import 'login_screen.dart';
@@ -81,7 +77,7 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    StreamBuilder(
       stream: AuthMethods().authChanges,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -90,46 +86,47 @@ class _MainMenuState extends State<MainMenu> {
           );
         }
         if (snapshot.hasData) {
-          return PersistentTabView(
-            context,
-            controller: _controller,
-            screens: _buildScreens(),
-            items: _navBarsItems(),
-            confineInSafeArea: true,
-            backgroundColor: Colors.white,
-            handleAndroidBackButtonPress: true,
-            resizeToAvoidBottomInset: true,
-            stateManagement: true,
-            navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
-                ? 10.0
-                : kBottomNavigationBarHeight,
-            hideNavigationBarWhenKeyboardShows: true,
-            margin: const EdgeInsets.only(top: 10.0),
-            popActionScreens: PopActionScreensType.all,
-            bottomScreenMargin: 55.0,
-            selectedTabScreenContext: (context) {
-              testContext = context!;
-            },
-            hideNavigationBar: _hideNavBar,
-            decoration: NavBarDecoration(
-                colorBehindNavBar: Colors.indigo,
-                border: Border.all(color: Colors.grey)),
-            popAllScreensOnTapOfSelectedTab: true,
-            itemAnimationProperties: const ItemAnimationProperties(
-              duration: Duration(milliseconds: 400),
-              curve: Curves.ease,
-            ),
-            screenTransitionAnimation: const ScreenTransitionAnimation(
-              animateTabTransition: true,
-              curve: Curves.ease,
-              duration: Duration(milliseconds: 200),
-            ),
-            navBarStyle: NavBarStyle
-                .style3, // Choose the nav bar style with this property
-          );
+          return const HomeScreen();
         }
         return const LoginScreen();
       },
+    );
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      backgroundColor: Colors.white,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
+          ? 10.0
+          : kBottomNavigationBarHeight,
+      hideNavigationBarWhenKeyboardShows: true,
+      margin: const EdgeInsets.only(top: 10.0),
+      popActionScreens: PopActionScreensType.all,
+      bottomScreenMargin: 55.0,
+      selectedTabScreenContext: (context) {
+        testContext = context!;
+      },
+      hideNavigationBar: _hideNavBar,
+      decoration: NavBarDecoration(
+          colorBehindNavBar: Colors.indigo,
+          border: Border.all(color: Colors.grey)),
+      popAllScreensOnTapOfSelectedTab: true,
+      itemAnimationProperties: const ItemAnimationProperties(
+        duration: Duration(milliseconds: 400),
+        curve: Curves.ease,
+      ),
+      screenTransitionAnimation: const ScreenTransitionAnimation(
+        animateTabTransition: true,
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
+      ),
+      navBarStyle:
+          NavBarStyle.style3, // Choose the nav bar style with this property
     );
   }
 }

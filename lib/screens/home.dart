@@ -1,38 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_item_grid.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_widgets/home_product_sales.dart';
-<<<<<<< Updated upstream
-import 'package:gsms_mobileapp_swd/resources/auth_methods.dart';
-import 'package:gsms_mobileapp_swd/screens/history_meeting_screen.dart';
-import 'package:gsms_mobileapp_swd/resources/jitsi_meet_methods.dart';
-import 'package:gsms_mobileapp_swd/screens/meeting_screen.dart';
-import 'package:gsms_mobileapp_swd/utils/colors.dart';
-import 'package:gsms_mobileapp_swd/widgets/custom_button.dart';
-
-import '../widgets/home_meeting_button.dart';
-import 'login_screen.dart';
-=======
->>>>>>> Stashed changes
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-}
-
-final JitsiMeetMethods _jitsiMeetMethods = JitsiMeetMethods();
-createNewMeeting() async {
-  var random = Random();
-  String roomName = (random.nextInt(10000000) + 10000000).toString();
-  _jitsiMeetMethods.createMeeting(
-      roomName: roomName, isAudioMuted: true, isVideoMuted: true);
-}
-
-joinMeeting(BuildContext context) {
-  Navigator.pushNamed(context, '/video-call');
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -49,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.settings_power),
             onPressed: () {
-              AuthMethods().signOut();
               Navigator.pushNamed(context, '/login');
               // TODO: When press show an alert to ask user if they want to log out. Call logout function if Yes
             },
@@ -62,8 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             HomeItemGrid(),
             ProductSales(key: UniqueKey()),
-            CustomButton(
-                text: 'Join Meeting', onPressed: () => joinMeeting(context)),
           ],
         ),
         onRefresh: () async {

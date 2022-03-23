@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gsms_mobileapp_swd/resources/jitsi_meet_methods.dart';
 import 'package:gsms_mobileapp_swd/widgets/home_meeting_button.dart';
 
-import '../resources/auth_methods.dart';
-import '../widgets/custom_button.dart';
-
 class MeetingScreen extends StatelessWidget {
   MeetingScreen({Key? key}) : super(key: key);
 
@@ -41,8 +38,6 @@ class MeetingScreen extends StatelessWidget {
                   text: 'New Meeting',
                   icon: Icons.videocam,
                 ),
-<<<<<<< Updated upstream
-=======
                 HomeMeetingButton(
                   onPressed: () => {
                     Navigator.pushNamed(context, '/video-call')
@@ -50,7 +45,6 @@ class MeetingScreen extends StatelessWidget {
                   text: 'Join Meeting',
                   icon: Icons.add_box_rounded,
                 ),
->>>>>>> Stashed changes
                 /*HomeMeetingButton(
                 onPressed: () {},
                 text: 'Schedule',
