@@ -12,3 +12,8 @@ class GetIdEvent extends BrandEvent{
   final String getId;
   GetIdEvent({required this.getId});
 }
+
+class CreateEvent extends BrandEvent{
+  final String? brandName;
+  CreateEvent({required this.brandName});
+}

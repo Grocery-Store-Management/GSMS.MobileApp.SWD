@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/blocs/brand/brand_bloc.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list_item.dart';
-import 'package:gsms_mobileapp_swd/widgets/order_widgets/order_list_item.dart';
 
 class BrandList extends StatefulWidget {
   const BrandList({Key? key}) : super(key: key);

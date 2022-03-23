@@ -78,6 +78,35 @@ class ApiProvider {
     return data;
   }
 
+  Future<bool> createBrand(Brand brand) async {
+    bool isCreated = false;
+    if (user != null) {
+      token = await user.getIdToken();
+    }
+    dio.options.headers = {"Authorization": 'Bearer $token'};
+    var formData = {
+      "id": null,
+      "name": brand.name,
+      "createdDate": null,
+      "isDeleted": false,
+    };
+    try {
+      Response response = await dio.post(baseUrl + '/brands', data: json.encode(formData));
+      print(response.data.toString());
+    } catch (error, stacktrace) {
+      if (error is DioError) {
+        debugPrint('An error has occurred!');
+        debugPrint('STATUS: ${error.response?.statusCode}');
+        debugPrint('DATA: ${error.response?.data}');
+        debugPrint('HEADERS: ${error.response?.headers}');
+      } else {
+        debugPrint('Error sending request!');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
+      }
+    }
+    return isCreated;
+  }
+
 /* ImportOrder API */
 
   Future<List<ImportOrder>> fetchOrders() async {

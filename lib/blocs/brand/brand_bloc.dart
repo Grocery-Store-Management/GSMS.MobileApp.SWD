@@ -12,6 +12,9 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
     on<GetAllEvent>(
       _fetchBrands,
     );
+    on<CreateEvent>(
+      _createBrand,
+    );
   }
 
   final ApiProvider apiProvider;
@@ -21,6 +24,22 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
       emit(Initial());
       final data = await apiProvider.fetchBrands();
       emit(Loaded(data));
+    } catch (e) {
+      emit(Failure(e.toString()));
+    }
+  }
+
+  Future<void> _createBrand(CreateEvent event, Emitter<BrandState> emit) async {
+    try {
+      emit(Loading());
+      final Brand brand = Brand(
+        id: null,
+        name: event.brandName,
+        createdDate: null,
+        isDeleted: false,
+      );
+      await apiProvider.createBrand(brand);
+      emit(CreateSuccess());
     } catch (e) {
       emit(Failure(e.toString()));
     }

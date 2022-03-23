@@ -16,6 +16,8 @@ class Loaded extends BrandState  {
   const Loaded(this.brands);
 }
 
+class CreateSuccess extends BrandState {}
+
 class Failure extends BrandState {
   final String error;
   const Failure(this.error);
