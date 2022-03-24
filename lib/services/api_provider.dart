@@ -24,14 +24,14 @@ class ApiProvider {
 
 /* Brand API */
 
-  Future<List<Brand>> fetchBrands() async {
+  Future<List<Brand>> fetchBrands(int page) async {
     List<Brand> data = [];
     if (user != null) {
       token = await user.getIdToken();
     }
     dio.options.headers = {"Authorization": 'Bearer $token'};
     try {
-      var response = await dio.get(baseUrl + '/brands?page=1&page-size=10',
+      var response = await dio.get(baseUrl + '/brands?page=$page&page-size=10',
           options: Options(responseType: ResponseType.plain));
       data = (json.decode(response.data) as List)
           .map((e) => Brand.fromJson(e))

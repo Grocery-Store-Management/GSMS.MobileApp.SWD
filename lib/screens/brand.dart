@@ -4,10 +4,9 @@ import 'package:gsms_mobileapp_swd/blocs/brand/brand_bloc.dart';
 import 'package:gsms_mobileapp_swd/models/brand.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list.dart';
-import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list_item.dart';
 
 import '../widgets/circular_loading.dart';
-
+// TODO: add search and page
 class BrandScreen extends StatefulWidget {
   const BrandScreen({Key? key}) : super(key: key);
 
@@ -20,6 +19,7 @@ class BrandScreen extends StatefulWidget {
 class _OrderState extends State<BrandScreen> {
   final ApiProvider apiProvider = ApiProvider();
   final List<Brand> brands = [];
+  var _searchField = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +27,21 @@ class _OrderState extends State<BrandScreen> {
       appBar: AppBar(
         title: const Text('Brands'),
         actions: [
+          TextField(
+            controller: _searchField,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    _searchField.clear();
+                  },
+                ),
+                hintText: 'Search by name...',
+                border: InputBorder.none
+            ),
+
+          ),
           IconButton(
               onPressed: () {
                 showDialog(
@@ -51,10 +66,7 @@ class _OrderState extends State<BrandScreen> {
           ),
         ],
       ),
-      body: BlocProvider<BrandBloc>(
-        create: (_) => BrandBloc(apiProvider: apiProvider)..add(GetAllEvent()),
-        child: const BrandList(),
-      ),
+      body: const BrandList(),
     );
   }
 }

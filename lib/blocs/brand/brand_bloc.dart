@@ -31,7 +31,7 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
   Future<void> _fetchBrands(GetAllEvent event, Emitter<BrandState> emit) async {
     try {
       emit(Initial());
-      final data = await apiProvider.fetchBrands();
+      final data = await apiProvider.fetchBrands(event.page);
       emit(Loaded(data));
     } catch (e) {
       emit(Failure(e.toString()));

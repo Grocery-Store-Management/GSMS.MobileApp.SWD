@@ -6,7 +6,10 @@ abstract class BrandEvent extends Equatable  {
   List<Object> get props => [];
 }
 
-class GetAllEvent extends BrandEvent {}
+class GetAllEvent extends BrandEvent {
+  final int page;
+  GetAllEvent({required this.page});
+}
 
 class GetIdEvent extends BrandEvent{
   final String getId;
