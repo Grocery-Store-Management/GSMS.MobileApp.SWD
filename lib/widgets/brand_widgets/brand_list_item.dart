@@ -7,7 +7,7 @@ import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import '../circular_loading.dart';
 
 // This is the type used by the popup menu below.
-enum MenuItem { edit, delete }
+enum PopMenuOptions { edit, delete }
 
 class BrandListItem extends StatefulWidget {
   const BrandListItem(
@@ -36,12 +36,12 @@ class _BrandListItemState extends State<BrandListItem> {
           subtitle: Text(
               'Created Date: ${widget.brand.createdDate?.substring(0, 10)}\n'
               'Status: ${(widget.brand.isDeleted != null) ? 'Not Deleted' : 'Deleted'}'),
-          trailing: PopupMenuButton<MenuItem>(
-            icon: Icon(Icons.more_vert),
-            onSelected: (MenuItem result) {
+          trailing: PopupMenuButton<PopMenuOptions>(
+            icon: const Icon(Icons.more_vert),
+            onSelected: (PopMenuOptions result) {
               setState(
                 () {
-                  if (result == MenuItem.edit) {
+                  if (result == PopMenuOptions.edit) {
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -52,7 +52,7 @@ class _BrandListItemState extends State<BrandListItem> {
                       },
                     );
                   }
-                  if (result == MenuItem.delete) {
+                  if (result == PopMenuOptions.delete) {
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -66,13 +66,13 @@ class _BrandListItemState extends State<BrandListItem> {
                 },
               );
             },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
-              const PopupMenuItem<MenuItem>(
-                value: MenuItem.edit,
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<PopMenuOptions>>[
+              const PopupMenuItem<PopMenuOptions>(
+                value: PopMenuOptions.edit,
                 child: Text('Edit'),
               ),
-              const PopupMenuItem<MenuItem>(
-                value: MenuItem.delete,
+              const PopupMenuItem<PopMenuOptions>(
+                value: PopMenuOptions.delete,
                 child: Text('Delete', style: TextStyle(color: Colors.redAccent),),
               ),
             ],
@@ -200,7 +200,7 @@ class _ConfirmDialogState extends State<ConfirmDialog> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BrandBloc>(
-      create: (_) => BrandBloc(apiProvider: widget.apiProvider)..add(DeleteEvent(getId: widget.brandId)),
+      create: (_) => BrandBloc(apiProvider: widget.apiProvider),
       child: BlocConsumer<BrandBloc, BrandState>(
         listener: (context, state) {
           if (state is Loading) {
@@ -216,19 +216,19 @@ class _ConfirmDialogState extends State<ConfirmDialog> {
         },
         builder: (context, state) {
           return AlertDialog(
-            title: Text('Do you want to delete this item?'),
+            title: const Text('Do you want to delete this item?'),
             actions: [
               ElevatedButton(
                   onPressed: () {
                     context.read<BrandBloc>()
                       .add(DeleteEvent(getId: widget.brandId));
                   },
-                  child: Text('Yes')),
+                  child: const Text('Yes')),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('No'),
+                child: const Text('No'),
               ),
             ],
           );

@@ -60,7 +60,12 @@ void messageDialog(BuildContext context, String title, String message) {
               style: TextStyle(fontSize: 20),
             ),
           ),
-          content: Text(message),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(message),
+            ],
+          ),
           actions: [
             ElevatedButton(
               child: Text("Close"),

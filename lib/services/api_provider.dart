@@ -157,6 +157,33 @@ class ApiProvider {
     return isDeleted;
   }
 
+  Future<List<Brand>> fetchBrandsByDate(int sort) async {
+    List<Brand> data = [];
+    if (user != null) {
+      token = await user.getIdToken();
+    }
+    dio.options.headers = {"Authorization": 'Bearer $token'};
+    try {
+      var response = await dio.get(baseUrl + '/brands?sort-by-date=$sort&page=1&page-size=10',
+          options: Options(responseType: ResponseType.plain));
+      data = (json.decode(response.data) as List)
+          .map((e) => Brand.fromJson(e))
+          .toList();
+    } catch (error, stacktrace) {
+      if (error is DioError) {
+        debugPrint('An error has occurred!');
+        debugPrint('STATUS: ${error.response?.statusCode}');
+        debugPrint('DATA: ${error.response?.data}');
+        debugPrint('HEADERS: ${error.response?.headers}');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
+      } else {
+        debugPrint('Error sending request!');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
+      }
+    }
+    return data;
+  }
+
 /* ImportOrder API */
 
   Future<List<ImportOrder>> fetchOrders() async {

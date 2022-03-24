@@ -13,6 +13,11 @@ class GetIdEvent extends BrandEvent{
   GetIdEvent({required this.getId});
 }
 
+class SortByDateEvent extends BrandEvent{
+  final int sort;
+  SortByDateEvent({required this.sort});
+}
+
 class CreateEvent extends BrandEvent{
   final String? brandName;
   CreateEvent({required this.brandName});

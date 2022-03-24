@@ -21,6 +21,9 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
     on<DeleteEvent>(
       _deleteBrand,
     );
+    on<SortByDateEvent>(
+      _sortByDate,
+    );
   }
 
   final ApiProvider apiProvider;
@@ -72,6 +75,16 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
       emit(Loading());
       await apiProvider.deleteBrand(event.getId);
       emit(DeleteSuccess());
+    } catch (e) {
+      emit(Failure(e.toString()));
+    }
+  }
+
+  Future<void> _sortByDate(SortByDateEvent event, Emitter<BrandState> emit) async {
+    try {
+      emit(Loading());
+      final data = await apiProvider.fetchBrandsByDate(event.sort);
+      emit(SortLoaded(data));
     } catch (e) {
       emit(Failure(e.toString()));
     }

@@ -16,6 +16,11 @@ class Loaded extends BrandState  {
   const Loaded(this.brands);
 }
 
+class SortLoaded extends BrandState  {
+  final List<Brand> sortedBrands;
+  const SortLoaded(this.sortedBrands);
+}
+
 class CreateSuccess extends BrandState {}
 
 class UpdateSuccess extends BrandState {}
