@@ -83,7 +83,7 @@ class BrandBloc extends Bloc<BrandEvent, BrandState> {
   Future<void> _sortByDate(SortByDateEvent event, Emitter<BrandState> emit) async {
     try {
       emit(Loading());
-      final data = await apiProvider.fetchBrandsByDate(event.sort);
+      final data = await apiProvider.fetchBrandsByDate(event.sort!);
       emit(SortLoaded(data));
     } catch (e) {
       emit(Failure(e.toString()));

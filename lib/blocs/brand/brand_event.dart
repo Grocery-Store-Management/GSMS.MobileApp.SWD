@@ -17,8 +17,8 @@ class GetIdEvent extends BrandEvent{
 }
 
 class SortByDateEvent extends BrandEvent{
-  final int sort;
-  SortByDateEvent({required this.sort});
+  int? sort;
+  SortByDateEvent({this.sort});
 }
 
 class CreateEvent extends BrandEvent{

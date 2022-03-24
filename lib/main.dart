@@ -92,8 +92,8 @@ class _MyAppState extends State<MyApp> {
       }
     });
 
-    await FirebaseMessaging.instance.getToken();
-
+    String? token = await FirebaseMessaging.instance.getToken();
+    print(token.toString());
     // Remove splash screen when done initializing firebase
     FlutterNativeSplash.remove();
   }
