@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsms_mobileapp_swd/blocs/brand/brand_bloc.dart';
-import 'package:gsms_mobileapp_swd/models/brand.dart';
 import 'package:gsms_mobileapp_swd/services/api_provider.dart';
 import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list_item.dart';
 
@@ -36,16 +35,33 @@ class _BrandListState extends State<BrandList> {
               context.read<BrandBloc>().add(GetAllEvent());
             },
             child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: state.brands.length,
-                itemBuilder: (context, index) {
-                  return BrandListItem(
-                    key: UniqueKey(),
-                    brand: state.brands[index],
-                    apiProvider: apiProvider,
-                  );
-                },
-              ),
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: state.brands.length,
+              itemBuilder: (context, index) {
+                return BrandListItem(
+                  key: UniqueKey(),
+                  brand: state.brands[index],
+                  apiProvider: apiProvider,
+                );
+              },
+            ),
+          );
+        } else if (state is SortLoaded) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<BrandBloc>().add(GetAllEvent());
+            },
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: state.sortedBrands.length,
+              itemBuilder: (context, index) {
+                return BrandListItem(
+                  key: UniqueKey(),
+                  brand: state.sortedBrands[index],
+                  apiProvider: apiProvider,
+                );
+              },
+            ),
           );
         } else {
           return Container();

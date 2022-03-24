@@ -61,9 +61,6 @@ class ApiProvider {
       Response response = await dio.get(baseUrl + '/brands/$id',
           options: Options(responseType: ResponseType.plain));
       data = Brand.fromJson(json.decode(response.data));
-      if (response.statusCode == 204) {
-        print("Can't get brand!");
-      }
     } catch (error, stacktrace) {
       if (error is DioError) {
         debugPrint('An error has occurred!');

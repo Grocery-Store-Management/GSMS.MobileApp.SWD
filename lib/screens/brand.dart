@@ -7,7 +7,7 @@ import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list.dart';
 import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list_item.dart';
 
 import '../widgets/circular_loading.dart';
-// TODO: Firgure out how to build a new list after sort
+
 class BrandScreen extends StatefulWidget {
   const BrandScreen({Key? key}) : super(key: key);
 
@@ -81,23 +81,16 @@ class SortDialog extends StatelessWidget {
           } else if (state is SortLoaded) {
             Navigator.of(context, rootNavigator: true).pop(); //close loading
             Navigator.of(context).pop(); //close dialog
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BrandList(),
+              ),
+            );
           }
         },
         builder: (context, state) {
-          if (state is SortLoaded) {
-            return ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: state.sortedBrands.length,
-                itemBuilder: (context, index) {
-                  return BrandListItem(
-                    brand: state.sortedBrands[index],
-                    apiProvider: apiProvider,
-                  );
-                },
-            );
-          }
-          else {
-            return AlertDialog(
+          return AlertDialog(
             title: Text('Sort By', textAlign: TextAlign.center),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -118,7 +111,6 @@ class SortDialog extends StatelessWidget {
               ],
             ),
           );
-          }
         }
       ),
     );
