@@ -30,7 +30,7 @@ class _ProductSalesState extends State<ProductSales> {
               const Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 15.0),
                 child: Text(
-                  "Top product sales of the month",
+                  "Total product sales of the month",
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.green,

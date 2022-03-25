@@ -24,14 +24,14 @@ class ApiProvider {
 
 /* Brand API */
 
-  Future<List<Brand>> fetchBrands(int page) async {
+  Future<List<Brand>> fetchBrands(int sort, int page, int pageSize) async {
     List<Brand> data = [];
     if (user != null) {
       token = await user.getIdToken();
     }
     dio.options.headers = {"Authorization": 'Bearer $token'};
     try {
-      var response = await dio.get(baseUrl + '/brands?page=$page&page-size=10',
+      var response = await dio.get(baseUrl + '/brands?sort-by-date=$sort&page=$page&page-size=$pageSize',
           options: Options(responseType: ResponseType.plain));
       data = (json.decode(response.data) as List)
           .map((e) => Brand.fromJson(e))
@@ -267,7 +267,7 @@ class ApiProvider {
 
 /* Product API */
 
-  Future<List<Product>> fetchProducts() async {
+  Future<List<Product>> fetchProducts(int page, int pageSize, int sort) async {
     if (user != null) {
       token = await user.getIdToken();
     }
@@ -275,7 +275,7 @@ class ApiProvider {
     dio.options.headers = {"Authorization": 'Bearer $token'};
     try {
       Response response = await dio.get(
-          baseUrl + '/products?page=1&page-size=10',
+          baseUrl + '/products?sort-by-name=$sort&page=$page&page-size=$pageSize',
           options: Options(responseType: ResponseType.plain));
       data = (json.decode(response.data) as List)
           .map((e) => Product.fromJson(e))
@@ -316,6 +316,31 @@ class ApiProvider {
       }
     }
     return data;
+  }
+
+  Future<bool> deleteProduct(String Id) async {
+    if (user != null) {
+      token = await user.getIdToken();
+    }
+    bool isDeleted = false;
+    dio.options.headers = {"Authorization": 'Bearer $token'};
+    try {
+      Response response = await dio.delete(baseUrl + '/products/$Id');
+      if (response.statusCode == 200) {
+        isDeleted = true;
+      }
+    } catch (error, stacktrace) {
+      if (error is DioError) {
+        debugPrint('An error has occurred!');
+        debugPrint('STATUS: ${error.response?.statusCode}');
+        debugPrint('DATA: ${error.response?.data}');
+        debugPrint('HEADERS: ${error.response?.headers}');
+      } else {
+        debugPrint('Error sending request!');
+        debugPrint("Exception occurred: $error stackTrace: $stacktrace");
+      }
+    }
+    return isDeleted;
   }
 
 /* ProductDetail API */

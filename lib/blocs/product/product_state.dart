@@ -9,6 +9,8 @@ abstract class ProductState extends Equatable {
 
 class Initial extends ProductState {}
 
+class Loading extends ProductState {}
+
 class ProductsFetched extends ProductState  {
   final List<Product> products;
   final List<String> cateNameList;
@@ -20,6 +22,8 @@ class ProductIdFetched extends ProductState  {
   final Product product;
   const ProductIdFetched(this.product);
 }
+
+class DeleteSuccess extends ProductState {}
 
 class Failure extends ProductState {
   final String? error;

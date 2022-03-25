@@ -11,6 +11,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc({required this.apiProvider}) : super(Initial()) {
     on<GetAllEvent>(_fetchProducts);
     on<GetIdEvent>(_fetchProductId);
+    on<DeleteEvent>(_deleteProduct);
   }
 
   final ApiProvider apiProvider;
@@ -18,7 +19,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Future<void> _fetchProducts(GetAllEvent event, Emitter<ProductState> emit) async {
     try {
       emit(Initial());
-      final data = await apiProvider.fetchProducts();
+      final data = await apiProvider.fetchProducts(event.page, event.pageSize, event.sort);
       List<String> cateNameList = [];
       List<Details> productDetailList = [];
       for (var product in data) {
@@ -41,6 +42,16 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(Initial());
       final data = await apiProvider.fetchProductId(event.id);
       emit(ProductIdFetched(data));
+    } catch (e) {
+      emit(Failure(e.toString()));
+    }
+  }
+
+  Future<void> _deleteProduct(DeleteEvent event, Emitter<ProductState> emit) async {
+    try {
+      emit(Loading());
+      await apiProvider.deleteProduct(event.id);
+      emit(DeleteSuccess());
     } catch (e) {
       emit(Failure(e.toString()));
     }

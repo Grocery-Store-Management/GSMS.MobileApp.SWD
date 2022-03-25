@@ -8,7 +8,9 @@ abstract class BrandEvent extends Equatable  {
 
 class GetAllEvent extends BrandEvent {
   final int page;
-  GetAllEvent({required this.page});
+  final int pageSize;
+  final int sort;
+  GetAllEvent({required this.sort, required this.page, required this.pageSize});
 }
 
 class GetIdEvent extends BrandEvent{

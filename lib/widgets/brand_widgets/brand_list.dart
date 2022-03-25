@@ -7,9 +7,9 @@ import 'package:gsms_mobileapp_swd/widgets/brand_widgets/brand_list_item.dart';
 import 'package:gsms_mobileapp_swd/widgets/circular_loading.dart';
 
 class BrandList extends StatefulWidget {
-  const BrandList({Key? key, this.sortedBrandList}) : super(key: key);
+  const BrandList({Key? key, this.sortedList}) : super(key: key);
 
-  final List<Brand>? sortedBrandList;
+  final List<Brand>? sortedList;
 
   @override
   _BrandListState createState() => _BrandListState();
@@ -17,6 +17,11 @@ class BrandList extends StatefulWidget {
 
 class _BrandListState extends State<BrandList> {
   final ApiProvider apiProvider = ApiProvider();
+  final ScrollController _scrollController = ScrollController();
+  List<Brand> brandList = [];
+  int page = 1;
+  int pageSize = 10;
+  int sort = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -35,75 +40,87 @@ class _BrandListState extends State<BrandList> {
               },
               icon: const Icon(Icons.add)
           ),
-          IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CreateDialog(apiProvider: apiProvider);
-                  },
-                );
-              },
-              icon: const Icon(Icons.search)
-          ),
-          IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return SortDialog(apiProvider: apiProvider);
-                  },
-                );
-              },
-              icon: const Icon(Icons.sort)
-          ),
         ],
       ),
-      body: BlocBuilder<BrandBloc, BrandState>(
-        builder: (context, state) {
-          if (state is Initial) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is Loaded) {
+      body: BlocProvider(
+        create: (_) => BrandBloc(apiProvider: apiProvider)..add(GetAllEvent(sort: sort, page: page, pageSize: pageSize)),
+        child: BlocConsumer<BrandBloc, BrandState>(
+          listener: (context, state) {
+            if (state is Failure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.error),
+                ),
+              );
+            }
+            if (state is Loaded) {
+              setState(() {
+                brandList = state.brands;
+              });
+            }
+          },
+          builder: (context, state) {
+            if (state is Initial) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is Loaded && state.brands.isEmpty) {
+              context.read<BrandBloc>().add(GetAllEvent(sort: 1, page: 1, pageSize: 10));
+            }
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<BrandBloc>().add(GetAllEvent(page: 1));
+                context.read<BrandBloc>().add(GetAllEvent(sort: sort, page: page, pageSize: pageSize));
               },
-              child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: state.brands.length,
-                itemBuilder: (context, index) {
-                  return BrandListItem(
-                    key: UniqueKey(),
-                    brand: state.brands[index],
-                    apiProvider: apiProvider,
-                  );
-                },
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text('Sort by Date: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),),
+                        ElevatedButton(onPressed: (){
+                          setState(() {
+                            sort = -1;
+                          });
+                          context.read<BrandBloc>().add(GetAllEvent(sort: sort, page: page, pageSize: pageSize));
+                        }, child: Text('Newest')),
+                        ElevatedButton(onPressed: (){
+                          setState(() {
+                            sort = 1;
+                          });
+                          context.read<BrandBloc>().add(GetAllEvent(sort: sort, page: page, pageSize: pageSize));
+                        }, child: Text('Oldest')),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController..addListener(() {
+                        if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
+                          setState(() {
+                            page = page + 1;
+                            pageSize = pageSize + 10;
+                          });
+                          context.read<BrandBloc>().add(GetAllEvent(sort: sort, page: page, pageSize: pageSize));
+                        }
+                      }),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: brandList.length,
+                      itemBuilder: (context, index) {
+                        return BrandListItem(
+                          key: UniqueKey(),
+                          brand: brandList[index],
+                          apiProvider: apiProvider,
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
-          }
-          if (widget.sortedBrandList != null) {
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<BrandBloc>().add(GetAllEvent(page: 1));
-              },
-              child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: widget.sortedBrandList?.length,
-                itemBuilder: (context, index) {
-                  return BrandListItem(
-                    key: UniqueKey(),
-                    brand: widget.sortedBrandList![index],
-                    apiProvider: apiProvider,
-                  );
-                },
-              ),
-            );
-          }
-          else {
-            return Container();
-          }
-        },
+          },
+        ),
       ),
     );
   }
@@ -138,15 +155,6 @@ class _SortDialogState extends State<SortDialog> {
             } else if (state is SortLoaded) {
               Navigator.of(context, rootNavigator: true).pop(); //close loading
               Navigator.of(context).pop(); //close dialog
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                    BlocProvider<BrandBloc>(
-                      create: (_) => BrandBloc(apiProvider: widget.apiProvider)..add(SortByDateEvent(sort: sort)),
-                      child: BrandList(sortedBrandList: state.sortedBrands)),
-                ),
-              );
             }
           },
           builder: (context, state) {

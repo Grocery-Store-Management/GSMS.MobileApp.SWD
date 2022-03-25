@@ -24,10 +24,7 @@ class _ProductScreenState extends State<ProductScreen> {
       appBar: AppBar(
         title: const Text('Products'),
       ),
-      body: BlocProvider<ProductBloc>(
-        create: (_) => ProductBloc(apiProvider: apiProvider)..add(GetAllEvent()),
-        child: const ProductList(),
-      ),
+      body: const ProductList(),
     );
   }
 }
