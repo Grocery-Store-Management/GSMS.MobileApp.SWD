@@ -183,7 +183,7 @@ class ApiProvider {
 
 /* ImportOrder API */
 
-  Future<List<ImportOrder>> fetchOrders() async {
+  Future<List<ImportOrder>> fetchOrders(int sort) async {
     List<ImportOrder> data = [];
     if (user != null) {
       token = await user.getIdToken();
@@ -191,7 +191,7 @@ class ApiProvider {
     dio.options.headers = {"Authorization": 'Bearer $token'};
     try {
       var response = await dio.get(
-          baseUrl + '/import-orders?page=1&page-size=10',
+          baseUrl + '/import-orders?sort-by-date=$sort&page=1&page-size=50',
           options: Options(responseType: ResponseType.plain));
       data = (json.decode(response.data) as List)
           .map((e) => ImportOrder.fromJson(e))

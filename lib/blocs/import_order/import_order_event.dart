@@ -6,7 +6,10 @@ abstract class ImportOrderEvent extends Equatable  {
   List<Object> get props => [];
 }
 
-class GetAllEvent extends ImportOrderEvent {}
+class GetAllEvent extends ImportOrderEvent {
+  int sort;
+  GetAllEvent({required this.sort});
+}
 
 class GetIdEvent extends ImportOrderEvent{
   final String getId;

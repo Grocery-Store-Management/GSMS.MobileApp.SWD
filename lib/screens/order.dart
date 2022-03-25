@@ -22,10 +22,7 @@ class _OrderState extends State<OrderScreen> {
       appBar: AppBar(
         title: const Text('Orders'),
       ),
-      body: BlocProvider<ImportOrderBloc>(
-        create: (_) => ImportOrderBloc(apiProvider: apiProvider)..add(GetAllEvent()),
-        child: const OrderList(),
-      ),
+      body: const OrderList(),
     );
   }
 }

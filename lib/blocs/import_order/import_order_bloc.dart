@@ -22,7 +22,7 @@ class ImportOrderBloc extends Bloc<ImportOrderEvent, ImportOrderState> {
   Future<void> _fetchOrder(GetAllEvent event, Emitter<ImportOrderState> emit) async {
     try {
       emit(OrderInitial());
-      final data = await apiProvider.fetchOrders();
+      final data = await apiProvider.fetchOrders(event.sort);
       emit(OrderLoaded(data));
     } catch (e) {
       emit(Failure(e.toString()));
